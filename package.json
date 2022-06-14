@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "@types/node": "^17.0.42",
+    "undici": "^5.4.0"
+  },
+  "name": "funcaptcha",
+  "version": "0.0.1",
+  "description": "A library used to interact with funcaptchas.",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "node test/test.js",
+    "benchmark": "node test/benchmark.js"
+  },
+  "keywords": [
+    "funcaptcha"
+  ],
+  "author": "noahcoolboy",
+  "license": "MIT"
+}
