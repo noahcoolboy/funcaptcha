@@ -1,6 +1,13 @@
-let fs = require("fs")
-let fun = require("../index")
-let readline = require("readline")
+# node-funcaptcha
+A typescript rewrite of roblox-funcaptcha
+## Installation
+This package is available on npm.  
+Simply run: `npm install funcaptcha`
+## Example
+```js
+const fs = require("fs")
+const fun = require("../index")
+const readline = require("readline")
 let rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -29,3 +36,4 @@ fun.getToken({
     }
     console.log("Done!")
 })
+```
