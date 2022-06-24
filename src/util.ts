@@ -56,10 +56,180 @@ function getBda(userAgent: string): string {
         },
         {
             "key": "enhanced_fp",
-            "value": [{
-                "key": "webgl_hash_webgl",
-                "value": random()
-            }]
+            "value": [
+                {
+                    "key": "webgl_extensions",
+                    "value": "ANGLE_instanced_arrays;EXT_blend_minmax;EXT_color_buffer_half_float;EXT_disjoint_timer_query;EXT_float_blend;EXT_frag_depth;EXT_shader_texture_lod;EXT_texture_compression_bptc;EXT_texture_compression_rgtc;EXT_texture_filter_anisotropic;WEBKIT_EXT_texture_filter_anisotropic;EXT_sRGB;KHR_parallel_shader_compile;OES_element_index_uint;OES_fbo_render_mipmap;OES_standard_derivatives;OES_texture_float;OES_texture_float_linear;OES_texture_half_float;OES_texture_half_float_linear;OES_vertex_array_object;WEBGL_color_buffer_float;WEBGL_compressed_texture_s3tc;WEBKIT_WEBGL_compressed_texture_s3tc;WEBGL_compressed_texture_s3tc_srgb;WEBGL_debug_renderer_info;WEBGL_debug_shaders;WEBGL_depth_texture;WEBKIT_WEBGL_depth_texture;WEBGL_draw_buffers;WEBGL_lose_context;WEBKIT_WEBGL_lose_context;WEBGL_multi_draw"
+                },
+                {
+                    "key": "webgl_extensions_hash",
+                    "value": "5e287cfa20ad57f8652f0b2320f0de21"
+                },
+                {
+                    "key": "webgl_renderer",
+                    "value": "WebKit WebGL"
+                },
+                {
+                    "key": "webgl_vendor",
+                    "value": "WebKit"
+                },
+                {
+                    "key": "webgl_version",
+                    "value": "WebGL 1.0 (OpenGL ES 2.0 Chromium)"
+                },
+                {
+                    "key": "webgl_shading_language_version",
+                    "value": "WebGL GLSL ES 1.0 (OpenGL ES GLSL ES 1.0 Chromium)"
+                },
+                {
+                    "key": "webgl_aliased_line_width_range",
+                    "value": "[1, 1]"
+                },
+                {
+                    "key": "webgl_aliased_point_size_range",
+                    "value": "[1, 1024]"
+                },
+                {
+                    "key": "webgl_antialiasing",
+                    "value": "yes"
+                },
+                {
+                    "key": "webgl_bits",
+                    "value": "8,8,24,8,8,0"
+                },
+                {
+                    "key": "webgl_max_params",
+                    "value": "16,32,16384,1024,16384,16,16384,30,16,16,4095"
+                },
+                {
+                    "key": "webgl_max_viewport_dims",
+                    "value": "[32767, 32767]"
+                },
+                {
+                    "key": "webgl_unmasked_vendor",
+                    "value": "Google Inc. (NVIDIA)"
+                },
+                {
+                    "key": "webgl_unmasked_renderer",
+                    "value": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3060 Ti Direct3D11 vs_5_0 ps_5_0, D3D11)"
+                },
+                {
+                    "key": "webgl_vsf_params",
+                    "value": "23,127,127,23,127,127,23,127,127"
+                },
+                {
+                    "key": "webgl_vsi_params",
+                    "value": "0,31,30,0,31,30,0,31,30"
+                },
+                {
+                    "key": "webgl_fsf_params",
+                    "value": "23,127,127,23,127,127,23,127,127"
+                },
+                {
+                    "key": "webgl_fsi_params",
+                    "value": "0,31,30,0,31,30,0,31,30"
+                },
+                {
+                    "key": "webgl_hash_webgl",
+                    "value": "65a254f1dbbdf598c0cb879b6d679648"
+                },
+                {
+                    "key": "user_agent_data_brands",
+                    "value": " Not A;Brand,Chromium,Google Chrome"
+                },
+                {
+                    "key": "user_agent_data_mobile",
+                    "value": false
+                },
+                {
+                    "key": "navigator_connection_downlink",
+                    "value": 10
+                },
+                {
+                    "key": "navigator_connection_downlink_max",
+                    "value": null
+                },
+                {
+                    "key": "network_info_rtt",
+                    "value": 50
+                },
+                {
+                    "key": "network_info_save_data",
+                    "value": false
+                },
+                {
+                    "key": "network_info_rtt_type",
+                    "value": null
+                },
+                {
+                    "key": "screen_pixel_depth",
+                    "value": 24
+                },
+                {
+                    "key": "navigator_device_memory",
+                    "value": 8
+                },
+                {
+                    "key": "navigator_languages",
+                    "value": "en-US,fr,fr-FR,en,nl"
+                },
+                {
+                    "key": "window_inner_width",
+                    "value": 2195
+                },
+                {
+                    "key": "window_inner_height",
+                    "value": 1124
+                },
+                {
+                    "key": "window_outer_width",
+                    "value": 2195
+                },
+                {
+                    "key": "window_outer_height",
+                    "value": 1195
+                },
+                {
+                    "key": "browser_detection_firefox",
+                    "value": false
+                },
+                {
+                    "key": "browser_detection_brave",
+                    "value": false
+                },
+                {
+                    "key": "audio_codecs",
+                    "value": "{\"ogg\":\"probably\",\"mp3\":\"probably\",\"wav\":\"probably\",\"m4a\":\"maybe\",\"aac\":\"probably\"}"
+                },
+                {
+                    "key": "video_codecs",
+                    "value": "{\"ogg\":\"probably\",\"h264\":\"probably\",\"webm\":\"probably\",\"mpeg4v\":\"\",\"mpeg4a\":\"\",\"theora\":\"\"}"
+                },
+                {
+                    "key": "media_query_dark_mode",
+                    "value": true
+                },
+                {
+                    "key": "headless_browser_phantom",
+                    "value": false
+                },
+                {
+                    "key": "headless_browser_selenium",
+                    "value": false
+                },
+                {
+                    "key": "headless_browser_nightmare_js",
+                    "value": false
+                },
+                {
+                    "key": "navigator_battery_charging",
+                    "value": true
+                },
+                {
+                    "key": "audio_fingerprint",
+                    "value": "124.04347527516074"
+                }
+            ]
         }
     ]
     
