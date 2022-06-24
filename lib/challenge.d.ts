@@ -1,5 +1,9 @@
 /// <reference types="node" />
 import { TokenInfo } from "./session";
+interface ChallengeOptions {
+    userAgent?: string;
+    proxy?: string;
+}
 interface ChallengeData {
     token: string;
     tokenInfo: TokenInfo;
@@ -23,14 +27,16 @@ export declare abstract class Challenge {
     wave: number;
     protected key: string;
     protected userAgent: string;
-    constructor(data: ChallengeData, userAgent: string);
+    protected proxy: string;
+    constructor(data: ChallengeData, challengeOptions: ChallengeOptions);
     getImage(): Promise<Buffer>;
+    getEmbed(): Promise<string>;
     protected getKey(): Promise<string>;
     abstract answer(answer: number): Promise<AnswerResponse>;
 }
 export declare class Challenge3 extends Challenge {
     private answerHistory;
-    constructor(data: ChallengeData, userAgent: string);
+    constructor(data: ChallengeData, challengeOptions: ChallengeOptions);
     answer(tile: number): Promise<AnswerResponse>;
 }
 export {};

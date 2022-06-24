@@ -2,7 +2,7 @@ import fingerprint from "./fingerprint";
 import murmur from "./murmur"
 import crypt from "./crypt"
 
-const DEFAULT_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36';
+const DEFAULT_USER_AGENT = 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36';
 
 let apiBreakers = {
     default: (c) => { return { px: (c[0] / 300).toFixed(2), py: (c[1] / 200).toFixed(2), x: c[0], y: c[1] } },
@@ -62,11 +62,12 @@ function getBda(userAgent: string): string {
             }]
         }
     ]
-
+    
     let time = new Date().getTime() / 1000;
     let key = userAgent + Math.round(time - time % 21600)
 
-    let encrypted = crypt.encrypt(JSON.stringify(bda), key)
+    let s = JSON.stringify(bda)
+    let encrypted = crypt.encrypt(s, key)
     return Buffer.from(JSON.stringify(encrypted)).toString("base64")
 }
 

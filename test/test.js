@@ -30,7 +30,7 @@ async function test(publicKey, name) {
     
     let variant = captcha.data.game_data.game_variant
     if(variant.startsWith("dice_") || variant.startsWith("dart") || variant.startsWith("context-") || ["shadow-icons", "penguins", "shadows", "mismatched-jigsaw", "stairs_walking", "reflection", "card", undefined].includes(variant)) {
-        throw new Error("Detected by Arkose Labs, got gameVariant: " + captcha.gameVariant)
+        throw new Error("Detected by Arkose Labs, got gameVariant: " + variant)
     }
 
     for(let x = 0; x < captcha.data.game_data.waves; x++) {

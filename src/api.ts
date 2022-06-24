@@ -7,7 +7,8 @@ interface GetTokenOptions {
     surl?: string,
     data?: { [key: string]: string },
     headers?: { [key: string]: string },
-    site?: string
+    site?: string,
+    proxy?: string
 }
 
 export interface GetTokenResult {
@@ -33,7 +34,8 @@ async function getToken(options: GetTokenOptions): Promise<GetTokenResult> {
         surl: "https://client-api.arkoselabs.com",
         data: {},
         headers: {
-            "User-Agent": util.DEFAULT_USER_AGENT
+            "User-Agent": util.DEFAULT_USER_AGENT,
+            "Content-Type": "application/x-www-form-urlencoded"
         },
         ...options
     }
@@ -47,9 +49,10 @@ async function getToken(options: GetTokenOptions): Promise<GetTokenResult> {
             userbrowser: options.headers["User-Agent"],
             rnd: Math.random().toString(),
             bda: util.getBda(options.headers["User-Agent"]),
+            ...Object.fromEntries(Object.keys(options.data).map(v => ["data[" + v + "]", options.data[v]]))
         }),
         headers: options.headers
-    })
+    }, options.proxy)
 
     return JSON.parse(res.body.toString())
 }

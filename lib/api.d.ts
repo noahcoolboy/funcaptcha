@@ -8,6 +8,7 @@ interface GetTokenOptions {
         [key: string]: string;
     };
     site?: string;
+    proxy?: string;
 }
 export interface GetTokenResult {
     challenge_url: string;

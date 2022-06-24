@@ -22,14 +22,20 @@ export interface TokenInfo {
     smurl: string,
 }
 
+interface SessionOptions {
+    userAgent?: string,
+    proxy?: string
+}
+
 let parseToken = (token: string): TokenInfo => Object.fromEntries(token.split("|").map(v => v.split("=").map(v => decodeURIComponent(v))))
 
 class Session {
     public token: string;
     public tokenInfo: TokenInfo;
     private userAgent: string;
+    private proxy: string;
 
-    constructor(token: string | GetTokenResult, userAgent?: string) {
+    constructor(token: string | GetTokenResult, sessionOptions?: SessionOptions) {
         if(typeof token === "string") {
             this.token = token
         } else {
@@ -39,7 +45,8 @@ class Session {
             this.token = "token=" + this.token
         
         this.tokenInfo = parseToken(this.token)
-        this.userAgent = userAgent || util.DEFAULT_USER_AGENT
+        this.userAgent = sessionOptions?.userAgent || util.DEFAULT_USER_AGENT
+        this.proxy = sessionOptions?.proxy
     }
 
     async getChallenge(): Promise<Challenge> {
@@ -52,22 +59,25 @@ class Session {
                 token: this.tokenInfo.token,
                 analytics_tier: this.tokenInfo.at,
                 "data%5Bstatus%5D": "init",
-                lang: ""
+                lang: "en"
             }),
             headers: {
                 "User-Agent": this.userAgent,
                 "Content-Type": "application/x-www-form-urlencoded"
             }
-        })
+        }, this.proxy)
 
         let data = JSON.parse(res.body.toString())
         data.token = this.token
         data.tokenInfo = this.tokenInfo
 
         if(data.game_data.gameType == 3) {
-            return new Challenge3(data, this.userAgent)
+            return new Challenge3(data, {
+                proxy: this.proxy,
+                userAgent: this.userAgent
+            })
         } else {
-            throw new Error("Unknown game type")
+            throw new Error("Unsupported game type: " + data.game_data.gameType)
         }
         //return res.body.toString()
     }

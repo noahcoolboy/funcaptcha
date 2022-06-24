@@ -18,11 +18,16 @@ export interface TokenInfo {
     surl: string;
     smurl: string;
 }
+interface SessionOptions {
+    userAgent?: string;
+    proxy?: string;
+}
 declare class Session {
     token: string;
     tokenInfo: TokenInfo;
     private userAgent;
-    constructor(token: string | GetTokenResult, userAgent?: string);
+    private proxy;
+    constructor(token: string | GetTokenResult, sessionOptions?: SessionOptions);
     getChallenge(): Promise<Challenge>;
 }
 export default Session;
