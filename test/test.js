@@ -8,7 +8,11 @@ async function test(publicKey, name) {
     console.log("Testing key for " + name)
     let token = await fun.getToken({
         pkey: publicKey,
-        surl: "https://roblox-api.arkoselabs.com"
+        surl: "https://roblox-api.arkoselabs.com",
+        /*proxy: "http://127.0.0.1:8889",
+        data: {
+            blob
+        }*/
     })
     if(!token) {
         throw new Error("Invalid token")
@@ -50,7 +54,9 @@ async function test(publicKey, name) {
 
 setImmediate(async () => {
     await test("476068BF-9607-4799-B53D-966BE98E2B81", "Login")
-    await test("A2A14B1D-1AF3-C791-9BBC-EE33CC7A0A6F", "Signup")
-    await test("63E4117F-E727-42B4-6DAA-C8448E9B137F", "Group Join")
-    await test("1B154715-ACB4-2706-19ED-0DC7E3F7D855", "Promocode Redeem")
+    
+    // These will no longer be tested as they now require a blob to send a proper captcha
+    //await test("A2A14B1D-1AF3-C791-9BBC-EE33CC7A0A6F", "Signup")
+    //await test("63E4117F-E727-42B4-6DAA-C8448E9B137F", "Group Join")
+    //await test("1B154715-ACB4-2706-19ED-0DC7E3F7D855", "Promocode Redeem", await util.getBlob("https://billing.roblox.com/v1/gamecard/redeem", csrf))
 })

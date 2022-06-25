@@ -4,7 +4,7 @@
     "undici": "^5.4.0"
   },
   "name": "funcaptcha",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "A library used to interact with funcaptchas.",
   "main": "index.js",
   "scripts": {
