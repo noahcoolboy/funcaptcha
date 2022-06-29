@@ -1,4 +1,4 @@
-interface GetTokenOptions {
+export interface GetTokenOptions {
     pkey: string;
     surl?: string;
     data?: {
@@ -23,8 +23,4 @@ export interface GetTokenResult {
     tbio: boolean;
     token: string;
 }
-declare function getToken(options: GetTokenOptions): Promise<GetTokenResult>;
-declare const _default: {
-    getToken: typeof getToken;
-};
-export default _default;
+export declare function getToken(options: GetTokenOptions): Promise<GetTokenResult>;

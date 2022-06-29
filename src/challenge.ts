@@ -1,37 +1,37 @@
-import request from "./http"
+import request from "./http";
 import { TokenInfo } from "./session";
 import util from "./util";
 import crypt from "./crypt";
 
 interface ChallengeOptions {
-    userAgent?: string,
-    proxy?: string
+    userAgent?: string;
+    proxy?: string;
 }
 
 interface ChallengeData {
-    token: string,
-    tokenInfo: TokenInfo,
-    session_token: string,
-    challengeID: string,
+    token: string;
+    tokenInfo: TokenInfo;
+    session_token: string;
+    challengeID: string;
     game_data: {
-        gameType: number,
+        gameType: number;
         customGUI: {
-            _challenge_imgs: string[],
-            api_breaker: string,
-        },
-        waves: number,
-        game_variant: string,
-    }
+            _challenge_imgs: string[];
+            api_breaker: string;
+        };
+        waves: number;
+        game_variant: string;
+    };
 }
 
 interface AnswerResponse {
-    response: "not answered" | "answered",
-    solved?: boolean,
-    incorrect_guess?: number,
-    score?: number,
-    decryption_key?: string,
-    time_end?: number,
-    time_end_seconds?: number,
+    response: "not answered" | "answered";
+    solved?: boolean;
+    incorrect_guess?: number;
+    score?: number;
+    decryption_key?: string;
+    time_end?: number;
+    time_end_seconds?: number;
 }
 
 export abstract class Challenge {
@@ -48,43 +48,50 @@ export abstract class Challenge {
         this.proxy = challengeOptions.proxy;
 
         // Preload images
-        this.imgs = data.game_data.customGUI._challenge_imgs.map(async v => {
+        this.imgs = data.game_data.customGUI._challenge_imgs.map(async (v) => {
             let req = await request(v, {
                 method: "GET",
                 path: undefined,
-            })
-            return req.body
-        })
+            });
+            return req.body;
+        });
     }
 
     async getImage(): Promise<Buffer> {
-        let img = await this.imgs[this.wave]
+        let img = await this.imgs[this.wave];
         try {
-            JSON.parse(img.toString()) // Image is encrypted
-            img = Buffer.from(await crypt.decrypt(img.toString(), await this.getKey()), "base64")
+            JSON.parse(img.toString()); // Image is encrypted
+            img = Buffer.from(
+                await crypt.decrypt(img.toString(), await this.getKey()),
+                "base64"
+            );
         } catch (err) {
             // Image is not encrypted
             // All good!
         }
-        return img
+        return img;
     }
 
     protected async getKey() {
         if (this.key) return this.key;
-        let response = await request(this.data.tokenInfo.surl, {
-            method: "POST",
-            path: "/fc/ekey/",
-            headers: {
-                "User-Agent": this.userAgent,
-                "Content-Type": "application/x-www-form-urlencoded"
+        let response = await request(
+            this.data.tokenInfo.surl,
+            {
+                method: "POST",
+                path: "/fc/ekey/",
+                headers: {
+                    "User-Agent": this.userAgent,
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: util.constructFormData({
+                    session_token: this.data.session_token,
+                    game_token: this.data.challengeID,
+                }),
             },
-            body: util.constructFormData({
-                session_token: this.data.session_token,
-                game_token: this.data.challengeID
-            })
-        }, this.proxy)
-        this.key = JSON.parse(response.body.toString()).decryption_key
-        return this.key
+            this.proxy
+        );
+        this.key = JSON.parse(response.body.toString()).decryption_key;
+        return this.key;
     }
 
     abstract answer(answer: number): Promise<AnswerResponse>;
@@ -98,25 +105,36 @@ export class Challenge3 extends Challenge {
     }
 
     async answer(tile: number): Promise<AnswerResponse> {
-        let pos = util.tileToLoc(tile)
-        this.answerHistory.push(util.apiBreakers[this.data.game_data.customGUI.api_breaker || "default"](pos))
-        let encrypted = await crypt.encrypt(JSON.stringify(this.answerHistory), this.data.session_token)
-        let req = await request(this.data.tokenInfo.surl, {
-            method: "POST",
-            path: "/fc/ca/",
-            headers: {
-                "User-Agent": this.userAgent,
-                "Content-Type": "application/x-www-form-urlencoded"
+        let pos = util.tileToLoc(tile);
+        this.answerHistory.push(
+            util.apiBreakers[
+                this.data.game_data.customGUI.api_breaker || "default"
+            ](pos)
+        );
+        let encrypted = await crypt.encrypt(
+            JSON.stringify(this.answerHistory),
+            this.data.session_token
+        );
+        let req = await request(
+            this.data.tokenInfo.surl,
+            {
+                method: "POST",
+                path: "/fc/ca/",
+                headers: {
+                    "User-Agent": this.userAgent,
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: util.constructFormData({
+                    session_token: this.data.session_token,
+                    game_token: this.data.challengeID,
+                    guess: encrypted,
+                }),
             },
-            body: util.constructFormData({
-                session_token: this.data.session_token,
-                game_token: this.data.challengeID,
-                guess: encrypted
-            }, )
-        }, this.proxy)
-        let reqData = JSON.parse(req.body.toString())
-        this.key = reqData.decryption_key || ""
-        this.wave++
-        return reqData
+            this.proxy
+        );
+        let reqData = JSON.parse(req.body.toString());
+        this.key = reqData.decryption_key || "";
+        this.wave++;
+        return reqData;
     }
 }

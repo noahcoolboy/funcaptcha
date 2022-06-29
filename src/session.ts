@@ -4,88 +4,101 @@ import http from "./http";
 import util from "./util";
 
 export interface TokenInfo {
-    token: string,
-    r: string,
-    metabgclr: string,
-    mainbgclr: string,
-    guitextcolor: string,
-    metaiconclr: string,
-    meta_height: string,
-    meta_width: string,
-    meta: string,
-    pk: string,
-    dc: string,
-    at: string,
-    cdn_url: string,
-    lurl: string,
-    surl: string,
-    smurl: string,
+    token: string;
+    r: string;
+    metabgclr: string;
+    mainbgclr: string;
+    guitextcolor: string;
+    metaiconclr: string;
+    meta_height: string;
+    meta_width: string;
+    meta: string;
+    pk: string;
+    dc: string;
+    at: string;
+    cdn_url: string;
+    lurl: string;
+    surl: string;
+    smurl: string;
 }
 
-interface SessionOptions {
-    userAgent?: string,
-    proxy?: string
+export interface SessionOptions {
+    userAgent?: string;
+    proxy?: string;
 }
 
-let parseToken = (token: string): TokenInfo => Object.fromEntries(token.split("|").map(v => v.split("=").map(v => decodeURIComponent(v))))
+let parseToken = (token: string): TokenInfo =>
+    Object.fromEntries(
+        token
+            .split("|")
+            .map((v) => v.split("=").map((v) => decodeURIComponent(v)))
+    );
 
-class Session {
+export class Session {
     public token: string;
     public tokenInfo: TokenInfo;
     private userAgent: string;
     private proxy: string;
 
-    constructor(token: string | GetTokenResult, sessionOptions?: SessionOptions) {
-        if(typeof token === "string") {
-            this.token = token
+    constructor(
+        token: string | GetTokenResult,
+        sessionOptions?: SessionOptions
+    ) {
+        if (typeof token === "string") {
+            this.token = token;
         } else {
-            this.token = token.token
+            this.token = token.token;
         }
-        if(!this.token.startsWith("token="))
-            this.token = "token=" + this.token
-        
-        this.tokenInfo = parseToken(this.token)
-        this.userAgent = sessionOptions?.userAgent || util.DEFAULT_USER_AGENT
-        this.proxy = sessionOptions?.proxy
+        if (!this.token.startsWith("token="))
+            this.token = "token=" + this.token;
+
+        this.tokenInfo = parseToken(this.token);
+        this.userAgent = sessionOptions?.userAgent || util.DEFAULT_USER_AGENT;
+        this.proxy = sessionOptions?.proxy;
     }
 
     async getChallenge(): Promise<Challenge> {
-        let res = await http(this.tokenInfo.surl, {
-            path: "/fc/gfct/",
-            method: "POST",
-            body: util.constructFormData({
-                sid: this.tokenInfo.r,
-                render_type: "canvas",
-                token: this.tokenInfo.token,
-                analytics_tier: this.tokenInfo.at,
-                "data%5Bstatus%5D": "init",
-                lang: "en"
-            }),
-            headers: {
-                "User-Agent": this.userAgent,
-                "Content-Type": "application/x-www-form-urlencoded"
-            }
-        }, this.proxy)
+        let res = await http(
+            this.tokenInfo.surl,
+            {
+                path: "/fc/gfct/",
+                method: "POST",
+                body: util.constructFormData({
+                    sid: this.tokenInfo.r,
+                    render_type: "canvas",
+                    token: this.tokenInfo.token,
+                    analytics_tier: this.tokenInfo.at,
+                    "data%5Bstatus%5D": "init",
+                    lang: "en",
+                }),
+                headers: {
+                    "User-Agent": this.userAgent,
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+            },
+            this.proxy
+        );
 
-        let data = JSON.parse(res.body.toString())
-        data.token = this.token
-        data.tokenInfo = this.tokenInfo
+        let data = JSON.parse(res.body.toString());
+        data.token = this.token;
+        data.tokenInfo = this.tokenInfo;
 
-        if(data.game_data.gameType == 3) {
+        if (data.game_data.gameType == 3) {
             return new Challenge3(data, {
                 proxy: this.proxy,
-                userAgent: this.userAgent
-            })
+                userAgent: this.userAgent,
+            });
         } else {
-            throw new Error("Unsupported game type: " + data.game_data.gameType)
+            throw new Error(
+                "Unsupported game type: " + data.game_data.gameType
+            );
         }
         //return res.body.toString()
     }
 
-    getEmbedUrl(): Promise<string> {
-        // @ts-ignore
-        return `${this.tokenInfo.surl}/fc/gc/?${util.constructFormData(this.tokenInfo)}`
+    getEmbedUrl(): string {
+        return `${this.tokenInfo.surl}/fc/gc/?${util.constructFormData(
+            this.tokenInfo
+        )}`;
     }
 }
-
-export default Session

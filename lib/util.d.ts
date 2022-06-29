@@ -1,7 +1,5 @@
 declare function tileToLoc(tile: number): number[];
-declare function constructFormData(data: {
-    [key: string]: string;
-}): string;
+declare function constructFormData(data: {}): string;
 declare function getBda(userAgent: string): string;
 declare const _default: {
     DEFAULT_USER_AGENT: string;
