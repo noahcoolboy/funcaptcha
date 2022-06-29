@@ -54,6 +54,7 @@ async function test(publicKey, name) {
 
 setImmediate(async () => {
     await test("476068BF-9607-4799-B53D-966BE98E2B81", "Login")
+    await test("A2A14B1D-1AF3-C791-9BBC-EE33CC7A0A6F", "Signup")
     
     // These will no longer be tested as they now require a blob to send a proper captcha
     //await test("A2A14B1D-1AF3-C791-9BBC-EE33CC7A0A6F", "Signup")
