@@ -22,7 +22,7 @@ const token = fun.getToken({
         // in mind to pass a user agent when doing that
         "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36'
     },
-    site: "https://www.roblox.com" // The site parameter, usually not required
+    site: "https://www.roblox.com", // The site parameter, usually not required
     proxy: "http://127.0.0.1:8888" // A proxy to fetch the token
     // NOTE: The proxy will only be used for fetching the token, and not future requests such as getting images and answering captchas
 })
