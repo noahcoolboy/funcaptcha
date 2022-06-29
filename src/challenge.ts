@@ -18,6 +18,7 @@ interface ChallengeData {
         customGUI: {
             _challenge_imgs: string[];
             api_breaker: string;
+            encrypted_mode: number;
         };
         waves: number;
         game_variant: string;
@@ -55,6 +56,11 @@ export abstract class Challenge {
             });
             return req.body;
         });
+
+        if(data.game_data.customGUI.encrypted_mode) {
+            // Preload decryption key
+            this.getKey();
+        }
     }
 
     async getImage(): Promise<Buffer> {

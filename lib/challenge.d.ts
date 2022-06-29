@@ -14,6 +14,7 @@ interface ChallengeData {
         customGUI: {
             _challenge_imgs: string[];
             api_breaker: string;
+            encrypted_mode: number;
         };
         waves: number;
         game_variant: string;
