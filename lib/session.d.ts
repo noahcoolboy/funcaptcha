@@ -29,5 +29,6 @@ declare class Session {
     private proxy;
     constructor(token: string | GetTokenResult, sessionOptions?: SessionOptions);
     getChallenge(): Promise<Challenge>;
+    getEmbedUrl(): Promise<string>;
 }
 export default Session;

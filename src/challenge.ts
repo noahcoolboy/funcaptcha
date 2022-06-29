@@ -69,18 +69,6 @@ export abstract class Challenge {
         return img
     }
 
-    async getEmbed(): Promise<string> {
-        let res = await request(this.data.tokenInfo.surl, {
-            method: "GET",
-            // @ts-ignore
-            path: "/fc/gc/?" + util.constructFormData(this.data.tokenInfo),
-            headers: {
-                "user-agent": this.userAgent
-            }
-        }, "http://127.0.0.1:8000")
-        return res.body.toString()
-    }
-
     protected async getKey() {
         if (this.key) return this.key;
         let response = await request(this.data.tokenInfo.surl, {

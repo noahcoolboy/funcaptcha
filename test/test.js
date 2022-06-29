@@ -26,6 +26,8 @@ async function test(publicKey, name) {
     let session = new fun.Session(token)
     let captcha = await session.getChallenge()
 
+    console.log(session.getEmbedUrl())
+
     if(captcha.data.game_data.gameType == 1) {
         throw new Error("Received the ball game! This library only supports the tile game.")
     } else if(captcha.data.game_data.gameType != 3) {

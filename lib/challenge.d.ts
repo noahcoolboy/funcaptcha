@@ -20,6 +20,13 @@ interface ChallengeData {
     };
 }
 interface AnswerResponse {
+    response: "not answered" | "answered";
+    solved?: boolean;
+    incorrect_guess?: number;
+    score?: number;
+    decryption_key?: string;
+    time_end?: number;
+    time_end_seconds?: number;
 }
 export declare abstract class Challenge {
     data: ChallengeData;
@@ -30,7 +37,6 @@ export declare abstract class Challenge {
     protected proxy: string;
     constructor(data: ChallengeData, challengeOptions: ChallengeOptions);
     getImage(): Promise<Buffer>;
-    getEmbed(): Promise<string>;
     protected getKey(): Promise<string>;
     abstract answer(answer: number): Promise<AnswerResponse>;
 }

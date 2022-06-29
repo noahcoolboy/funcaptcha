@@ -81,6 +81,11 @@ class Session {
         }
         //return res.body.toString()
     }
+
+    getEmbedUrl(): Promise<string> {
+        // @ts-ignore
+        return `${this.tokenInfo.surl}/fc/gc/?${util.constructFormData(this.tokenInfo)}`
+    }
 }
 
 export default Session
