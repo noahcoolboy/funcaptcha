@@ -11,8 +11,6 @@
     "types": "lib/index.d.ts",
     "scripts": {
         "build": "rimraf lib && tsc",
-        "prepare": "npm run build",
-        "prepublishOnly": "npm run test",
         "test": "node test/test.js",
         "benchmark": "node test/benchmark.js"
     },
