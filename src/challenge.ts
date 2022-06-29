@@ -25,7 +25,13 @@ interface ChallengeData {
 }
 
 interface AnswerResponse {
-
+    response: "not answered" | "answered",
+    solved?: boolean,
+    incorrect_guess?: number,
+    score?: number,
+    decryption_key?: string,
+    time_end?: number,
+    time_end_seconds?: number,
 }
 
 export abstract class Challenge {

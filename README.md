@@ -1,9 +1,55 @@
-# node-funcaptcha
+# funcaptcha
 A typescript rewrite of roblox-funcaptcha
 ## Installation
 This package is available on npm.  
 Simply run: `npm install funcaptcha`
-## Example
+## Usage
+Require the library like any other
+```js
+const fun = require("funcaptcha")
+```
+
+You must first fetch a token using getToken
+```js
+const token = fun.getToken({
+    pkey: "476068BF-9607-4799-B53D-966BE98E2B81", // The public key
+    surl: "https://roblox-api.arkoselabs.com", // Some websites can have a custom service URL
+    data: {
+        blob: "blob" // Some websites can have custom data passed: here it is data[blob]
+    },
+    headers: {
+        // You can pass custom headers if you have to, but keep
+        // in mind to pass a user agent when doing that
+        "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36'
+    },
+    site: "https://www.roblox.com" // The site parameter, usually not required
+    proxy: "http://127.0.0.1:8888" // A proxy to fetch the token
+    // NOTE: The proxy will only be used for fetching the token, and not future requests such as getting images and answering captchas
+})
+```
+
+You can then create a new session
+```js
+// Token, in this case, may either be a string (if you already know it) or an object you received from getToken (it will strip the token out of the object)
+const session = new fun.Session(token, {
+    proxy: "http://127.0.0.1:8888", // A proxy used to get images and answer captchas, usually not required
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36" // Custom user agent for all future requests
+})
+```
+
+One session can get you 10 funcaptcha challenges, you will have to get another session after that.
+```js
+let challenge = await session.getChallenge()
+// Please view https://pastebin.com/raw/Gi6yKwyD to see all the data you can find 
+console.log(challenge.data.game_data.game_variant)
+console.log(challenge.data.game_data.customGUI.api_breaker)
+
+// You can then use these functions
+await challenge.getImage()
+await challenge.answer(2) // 0-6, please see https://github.com/noahcoolboy/roblox-funcaptcha/raw/master/img.gif
+```
+
+## Full Example
 ```js
 const fs = require("fs")
 const fun = require("../index")
