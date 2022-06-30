@@ -47,14 +47,14 @@ export async function getToken(
         {
             method: "POST",
             path: "/fc/gt2/public_key/?public_key=" + options.pkey,
-            body: /*util.constructFormData({
+            body: util.constructFormData({
             public_key: options.pkey,
             site: options.site,
             userbrowser: options.headers["User-Agent"],
             rnd: Math.random().toString(),
             bda: util.getBda(options.headers["User-Agent"]),
             ...Object.fromEntries(Object.keys(options.data).map(v => ["data[" + v + "]", options.data[v]]))
-        })*/ "",
+        }),
             headers: options.headers,
         },
         options.proxy
