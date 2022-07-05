@@ -12,6 +12,7 @@ interface ChallengeData {
     game_data: {
         gameType: number;
         customGUI: {
+            _guiFontColr: string;
             _challenge_imgs: string[];
             api_breaker: string;
             encrypted_mode: number;
@@ -40,6 +41,13 @@ export declare abstract class Challenge {
     getImage(): Promise<Buffer>;
     protected getKey(): Promise<string>;
     abstract answer(answer: number): Promise<AnswerResponse>;
+}
+export declare class Challenge1 extends Challenge {
+    private answerHistory;
+    increment: any;
+    constructor(data: ChallengeData, challengeOptions: ChallengeOptions);
+    private round;
+    answer(answer: number): Promise<AnswerResponse>;
 }
 export declare class Challenge3 extends Challenge {
     private answerHistory;

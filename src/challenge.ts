@@ -2,6 +2,7 @@ import request from "./http";
 import { TokenInfo } from "./session";
 import util from "./util";
 import crypt from "./crypt";
+import { assert } from "console";
 
 interface ChallengeOptions {
     userAgent?: string;
@@ -16,6 +17,7 @@ interface ChallengeData {
     game_data: {
         gameType: number;
         customGUI: {
+            _guiFontColr: string;
             _challenge_imgs: string[];
             api_breaker: string;
             encrypted_mode: number;
@@ -103,6 +105,59 @@ export abstract class Challenge {
     abstract answer(answer: number): Promise<AnswerResponse>;
 }
 
+export class Challenge1 extends Challenge {
+    private answerHistory = [];
+    public increment;
+
+    constructor(data: ChallengeData, challengeOptions: ChallengeOptions) {
+        super(data, challengeOptions);
+        
+        // But WHY?!
+        let clr = data.game_data.customGUI._guiFontColr
+        this.increment = parseInt(clr ? clr.replace("#", "").substring(3) : "28", 16)
+        this.increment = this.increment > 113 ? this.increment / 10 : this.increment
+    }
+
+    private round(num: number): string {
+        return (Math.round(num * 10) / 10).toFixed(2);
+    }
+
+    async answer(answer: number): Promise<AnswerResponse> {
+        if(answer >= 0 && answer <= Math.round(360 / 51.4) - 1)
+            this.answerHistory.push(this.round(answer * this.increment));
+        else if(answer < 0)
+            this.answerHistory.push(this.round(360 - answer % 360))
+        else
+            this.answerHistory.push(this.round(answer % 360))
+
+        let encrypted = await crypt.encrypt(
+            this.answerHistory.toString(),
+            this.data.session_token
+        );
+        let req = await request(
+            this.data.tokenInfo.surl,
+            {
+                method: "POST",
+                path: "/fc/ca/",
+                headers: {
+                    "User-Agent": this.userAgent,
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: util.constructFormData({
+                    session_token: this.data.session_token,
+                    game_token: this.data.challengeID,
+                    guess: encrypted,
+                }),
+            },
+            this.proxy
+        );
+        let reqData = JSON.parse(req.body.toString());
+        this.key = reqData.decryption_key || "";
+        this.wave++;
+        return reqData;
+    }
+}
+
 export class Challenge3 extends Challenge {
     private answerHistory = [];
 
@@ -111,6 +166,8 @@ export class Challenge3 extends Challenge {
     }
 
     async answer(tile: number): Promise<AnswerResponse> {
+        assert(tile >= 0 && tile <= 5, "Tile must be between 0 and 5");
+        
         let pos = util.tileToLoc(tile);
         this.answerHistory.push(
             util.apiBreakers[

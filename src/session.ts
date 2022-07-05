@@ -1,5 +1,5 @@
 import { GetTokenResult } from "./api";
-import { Challenge, Challenge3 } from "./challenge";
+import { Challenge, Challenge1, Challenge3 } from "./challenge";
 import http from "./http";
 import util from "./util";
 
@@ -83,7 +83,12 @@ export class Session {
         data.token = this.token;
         data.tokenInfo = this.tokenInfo;
 
-        if (data.game_data.gameType == 3) {
+        if (data.game_data.gameType == 1) {
+            return new Challenge1(data, {
+                proxy: this.proxy,
+                userAgent: this.userAgent,
+            });
+        } else if (data.game_data.gameType == 3) {
             return new Challenge3(data, {
                 proxy: this.proxy,
                 userAgent: this.userAgent,

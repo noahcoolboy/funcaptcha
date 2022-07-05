@@ -12,8 +12,8 @@ async function test(publicKey, name) {
     let token = await fun.getToken({
         pkey: publicKey,
         surl: "https://roblox-api.arkoselabs.com",
-        /*proxy: "http://127.0.0.1:8889",
-        data: {
+        //proxy: "http://127.0.0.1:8889",
+        /*data: {
             blob
         }*/
     });
@@ -29,33 +29,32 @@ async function test(publicKey, name) {
     let session = new fun.Session(token);
     let captcha = await session.getChallenge();
 
-    console.log(session.getEmbedUrl());
+    console.log(session.getEmbedUrl(), captcha.data.game_data.gameType);
 
-    if (captcha.data.game_data.gameType == 1) {
-        throw new Error(
-            "Received the ball game! This library only supports the tile game."
-        );
-    } else if (captcha.data.game_data.gameType != 3) {
+    if (captcha.data.game_data.gameType != 1 && captcha.data.game_data.gameType != 3) {
         throw new Error(
             "Received unknown game type: gametype " +
-                captcha.info.game_data.gameType
+            captcha.info.game_data.gameType
         );
     }
 
     let variant = captcha.data.game_data.game_variant;
+
     if (
-        variant.startsWith("dice_") ||
-        variant.startsWith("dart") ||
-        variant.startsWith("context-") ||
-        [
-            "shadow-icons",
-            "penguins",
-            "shadows",
-            "mismatched-jigsaw",
-            "stairs_walking",
-            "reflection",
-            undefined,
-        ].includes(variant)
+        variant && (
+            variant.startsWith("dice_") ||
+            variant.startsWith("dart") ||
+            variant.startsWith("context-") ||
+            [
+                "shadow-icons",
+                "penguins",
+                "shadows",
+                "mismatched-jigsaw",
+                "stairs_walking",
+                "reflection",
+                undefined,
+            ].includes(variant)
+        )
     ) {
         throw new Error("Detected by Arkose Labs, got gameVariant: " + variant);
     }
