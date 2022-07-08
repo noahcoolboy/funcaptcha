@@ -46,7 +46,7 @@ console.log(challenge.data.game_data.customGUI.api_breaker)
 
 // You can then use these functions
 await challenge.getImage()
-await challenge.answer(2) // 0-6, please see https://github.com/noahcoolboy/roblox-funcaptcha/raw/master/img.gif
+await challenge.answer(2) // 0-5, please see https://github.com/noahcoolboy/roblox-funcaptcha/raw/master/img.gif
 ```
 
 ## Full Example
