@@ -35,6 +35,9 @@ const session = new fun.Session(token, {
     proxy: "http://127.0.0.1:8888", // A proxy used to get images and answer captchas, usually not required
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36" // Custom user agent for all future requests
 })
+
+// If you would like to let a user solve the captcha in their browser
+console.log(session.getEmbedUrl())
 ```
 
 One session can get you 10 funcaptcha challenges, you will have to get another session after that.
@@ -46,13 +49,20 @@ console.log(challenge.data.game_data.customGUI.api_breaker)
 
 // You can then use these functions
 await challenge.getImage()
+
+// For game type 1, where you have to rotate a circle to put the image in the correct orientation
+// In this game type, the angle increment can vary. It can be found with challenge.increment
+await challenge.answer(3) // Usually 0-6, but can be 0-5 or 0-6 depending on challenge.increment (clockwise)
+await challenge.answer(51.4) // You can input the raw angle as well (clockwise, negative for counter clockwise)
+
+// For game type 3, where you have to pick one of 6 tiles
 await challenge.answer(2) // 0-5, please see https://github.com/noahcoolboy/roblox-funcaptcha/raw/master/img.gif
 ```
 
 ## Full Example
 ```js
 const fs = require("fs")
-const fun = require("../index")
+const fun = require("funcaptcha")
 const readline = require("readline")
 let rl = readline.createInterface({
     input: process.stdin,

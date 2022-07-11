@@ -125,10 +125,8 @@ export class Challenge1 extends Challenge {
     async answer(answer: number): Promise<AnswerResponse> {
         if(answer >= 0 && answer <= Math.round(360 / 51.4) - 1)
             this.answerHistory.push(this.round(answer * this.increment));
-        else if(answer < 0)
-            this.answerHistory.push(this.round(360 - answer % 360))
         else
-            this.answerHistory.push(this.round(answer % 360))
+            this.answerHistory.push(this.round(answer))
 
         let encrypted = await crypt.encrypt(
             this.answerHistory.toString(),
