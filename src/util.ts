@@ -276,7 +276,7 @@ function getBda(userAgent: string): string {
 
     let s = JSON.stringify(bda);
     let encrypted = crypt.encrypt(s, key);
-    return Buffer.from(JSON.stringify(encrypted)).toString("base64");
+    return Buffer.from(encrypted).toString("base64");
 }
 
 export default {
