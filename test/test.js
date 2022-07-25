@@ -84,5 +84,4 @@ async function test(publicKey, name, surl = "https://client-api.arkoselabs.com")
 setImmediate(async () => {
     await test("69A21A01-CC7B-B9C6-0F9A-E7FA06677FFC", "Tiles");
     await test("029EF0D3-41DE-03E1-6971-466539B47725", "Ball");
-    await test("476068BF-9607-4799-B53D-966BE98E2B81", "Roblox Login", "https://roblox-api.arkoselabs.com");
 });
