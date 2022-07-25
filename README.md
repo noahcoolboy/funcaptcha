@@ -3,7 +3,7 @@ A typescript rewrite of roblox-funcaptcha
 ## Installation
 This package is available on npm.  
 Simply run: `npm install funcaptcha`
-## Usage
+## Usage And Documentation
 Require the library like any other
 ```js
 const fun = require("funcaptcha")
@@ -11,19 +11,19 @@ const fun = require("funcaptcha")
 
 You must first fetch a token using getToken
 ```js
-const token = fun.getToken({
+const token = await fun.getToken({
     pkey: "476068BF-9607-4799-B53D-966BE98E2B81", // The public key
-    surl: "https://roblox-api.arkoselabs.com", // Some websites can have a custom service URL
-    data: {
+    surl: "https://roblox-api.arkoselabs.com", // OPTIONAL: Some websites can have a custom service URL
+    data: { // OPTIONAL
         blob: "blob" // Some websites can have custom data passed: here it is data[blob]
     },
-    headers: {
+    headers: { // OPTIONAL
         // You can pass custom headers if you have to, but keep
         // in mind to pass a user agent when doing that
         "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36'
     },
-    site: "https://www.roblox.com", // The site parameter, usually not required
-    proxy: "http://127.0.0.1:8888" // A proxy to fetch the token
+    site: "https://www.roblox.com", // OPTIONAL: The site parameter, usually not required
+    proxy: "http://127.0.0.1:8888" // OPTIONAL: A proxy to fetch the token, usually not required
     // NOTE: The proxy will only be used for fetching the token, and not future requests such as getting images and answering captchas
 })
 ```
@@ -32,11 +32,12 @@ You can then create a new session
 ```js
 // Token, in this case, may either be a string (if you already know it) or an object you received from getToken (it will strip the token out of the object)
 const session = new fun.Session(token, {
-    proxy: "http://127.0.0.1:8888", // A proxy used to get images and answer captchas, usually not required
-    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36" // Custom user agent for all future requests
+    proxy: "http://127.0.0.1:8888", // OPTIONAL: A proxy used to get images and answer captchas, usually not required
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36" // OPTIONAL: Custom user agent for all future requests
 })
 
 // If you would like to let a user solve the captcha in their browser
+// NOTE: Embed URLs will not work unless put in an iframe.
 console.log(session.getEmbedUrl())
 ```
 
