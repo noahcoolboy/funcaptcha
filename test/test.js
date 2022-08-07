@@ -13,7 +13,7 @@ async function test(publicKey, name, surl = "https://client-api.arkoselabs.com")
     let token = await fun.getToken({
         pkey: publicKey,
         surl,
-        //proxy: "http://127.0.0.1:8889",
+        //proxy: "http://username:password@127.0.0.1:8889",
         /*data: {
             blob
         }*/
