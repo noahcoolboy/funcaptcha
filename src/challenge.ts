@@ -21,10 +21,20 @@ interface ChallengeData {
             _challenge_imgs: string[];
             api_breaker: string;
             encrypted_mode: number;
+            example_images: {
+                correct: string;
+                incorrect: string;
+            }
         };
         waves: number;
         game_variant: string;
     };
+    game_sid: string;
+    lang: string;
+    string_table: {
+        [key: string]: string;
+    },
+    string_table_prefixes: string[]
 }
 
 interface AnswerResponse {
@@ -103,6 +113,22 @@ export abstract class Challenge {
     }
 
     abstract answer(answer: number): Promise<AnswerResponse>;
+
+    get gameType() {
+        return this.data.game_data.gameType;
+    }
+    
+    get variant() {
+        return this.data.game_data.game_variant;
+    }
+
+    get instruction() {
+        return this.data.string_table[`${this.data.game_data.gameType}.instructions-${this.data.game_data.game_variant}`] || this.data.string_table[`${this.data.game_data.gameType}.touch_done_info${this.data.game_data.game_variant ? `_${this.data.game_data.game_variant}` : ""}`];
+    }
+
+    get waves() {
+        return this.data.game_data.waves;
+    }
 }
 
 export class Challenge1 extends Challenge {

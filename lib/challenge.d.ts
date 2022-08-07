@@ -16,10 +16,20 @@ interface ChallengeData {
             _challenge_imgs: string[];
             api_breaker: string;
             encrypted_mode: number;
+            example_images: {
+                correct: string;
+                incorrect: string;
+            };
         };
         waves: number;
         game_variant: string;
     };
+    game_sid: string;
+    lang: string;
+    string_table: {
+        [key: string]: string;
+    };
+    string_table_prefixes: string[];
 }
 interface AnswerResponse {
     response: "not answered" | "answered";
@@ -41,6 +51,10 @@ export declare abstract class Challenge {
     getImage(): Promise<Buffer>;
     protected getKey(): Promise<string>;
     abstract answer(answer: number): Promise<AnswerResponse>;
+    get gameType(): number;
+    get variant(): string;
+    get instruction(): string;
+    get waves(): number;
 }
 export declare class Challenge1 extends Challenge {
     private answerHistory;

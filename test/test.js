@@ -30,7 +30,11 @@ async function test(publicKey, name, surl = "https://client-api.arkoselabs.com")
     let session = new fun.Session(token);
     let captcha = await session.getChallenge();
 
-    console.log(session.getEmbedUrl(), captcha.data.game_data.gameType, captcha.data.game_data.game_variant);
+    console.table({
+        game_type: captcha.data.game_data.gameType,
+        game_variant: captcha.data.game_data.game_variant,
+        instruction: captcha.instruction
+    })
 
     if (captcha.data.game_data.gameType != 1 && captcha.data.game_data.gameType != 3) {
         throw new Error(
