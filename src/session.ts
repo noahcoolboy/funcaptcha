@@ -74,6 +74,8 @@ export class Session {
                 headers: {
                     "User-Agent": this.userAgent,
                     "Content-Type": "application/x-www-form-urlencoded",
+                    "Accept-Language": "en-US,en;q=0.9",
+                    "Sec-Fetch-Site": "cross-site",
                 },
             },
             this.proxy

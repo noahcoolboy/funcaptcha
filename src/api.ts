@@ -35,13 +35,18 @@ export async function getToken(
     options = {
         surl: "https://client-api.arkoselabs.com",
         data: {},
-        headers: {
-            "User-Agent": util.DEFAULT_USER_AGENT,
-            //"Content-Type": "application/x-www-form-urlencoded"
-        },
         ...options,
     };
 
+    if (!options.headers)
+        options.headers = { "User-Agent": util.DEFAULT_USER_AGENT };
+    else if (!Object.keys(options.headers).map(v => v.toLowerCase()).includes("user-agent"))
+        options.headers["User-Agent"] = util.DEFAULT_USER_AGENT;
+
+    options.headers["Accept-Language"] = "en-US,en;q=0.9";
+    options.headers["Sec-Fetch-Site"] = "cross-site";
+
+    let ua = options.headers[Object.keys(options.headers).find(v => v.toLowerCase() == "user-agent")]
     let res = await request(
         options.surl,
         {
@@ -50,9 +55,9 @@ export async function getToken(
             body: util.constructFormData({
                 public_key: options.pkey,
                 site: options.site,
-                userbrowser: options.headers["User-Agent"],
+                userbrowser: ua,
                 rnd: Math.random().toString(),
-                bda: util.getBda(options.headers["User-Agent"]),
+                bda: util.getBda(ua),
                 ...Object.fromEntries(Object.keys(options.data).map(v => ["data[" + v + "]", options.data[v]]))
             }),
             headers: options.headers,
