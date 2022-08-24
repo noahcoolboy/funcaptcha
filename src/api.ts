@@ -45,6 +45,7 @@ export async function getToken(
 
     options.headers["Accept-Language"] = "en-US,en;q=0.9";
     options.headers["Sec-Fetch-Site"] = "cross-site";
+    options.headers["Accept"] = "*/*";
 
     let ua = options.headers[Object.keys(options.headers).find(v => v.toLowerCase() == "user-agent")]
     let res = await request(
