@@ -1,5 +1,5 @@
 # funcaptcha
-A typescript rewrite of roblox-funcaptcha
+A library used to interact with funcaptchas.
 ## Installation
 This package is available on npm.  
 Simply run: `npm install funcaptcha`
