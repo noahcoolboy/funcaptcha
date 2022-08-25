@@ -83,12 +83,12 @@ undici.request("https://auth.roblox.com/v2/login", {
     })
     const body = await res2.body.json()
     
-    const fieldData = body.errors[0].fieldData.split(",")
+    const fieldData = JSON.parse(body.errors[0].fieldData)
     const token = await funcaptcha.getToken({
         pkey: "476068BF-9607-4799-B53D-966BE98E2B81",
         surl: "https://roblox-api.arkoselabs.com",
         data: {
-            "blob": fieldData[1],
+            "blob": fieldData.dxBlob,
         },
         headers: {
             "User-Agent": USER_AGENT,
