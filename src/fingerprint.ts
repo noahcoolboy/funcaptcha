@@ -329,8 +329,8 @@ function getFingerprint() {
         Math.floor(Math.random() * 8)
     ];
     fingerprint["PR"] = Math.random() * 2 + 0.5;
-    fingerprint["S"] = randomScreenRes();
-    fingerprint["AS"] = [fingerprint["S"][0], fingerprint["S"][1] - 40];
+    //fingerprint["S"] = randomScreenRes();
+    //fingerprint["AS"] = [fingerprint["S"][0], fingerprint["S"][1] - 40];
     fingerprint["TO"] = (Math.floor(Math.random() * 24) - 12) * 60;
     fingerprint["SS"] = Math.random() > 0.5;
     fingerprint["LS"] = Math.random() > 0.5;
@@ -366,7 +366,7 @@ function getFingerprint() {
     ];
     fingerprint["H"] = 2 ** Math.floor(Math.random() * 6);
     fingerprint["SWF"] = fingerprint["SWF"]; // RIP Flash
-
+    
     return fingerprint;
 }
 
