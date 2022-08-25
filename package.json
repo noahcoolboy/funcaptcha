@@ -16,7 +16,7 @@
         "roblox": "node test/roblox.js"
     },
     "dependencies": {
-        "undici": "^5.4.0"
+        "undici": "^5.8.2"
     },
     "devDependencies": {
         "@types/node": "^17.0.42",
