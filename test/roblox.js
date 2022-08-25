@@ -40,7 +40,7 @@ undici.request("https://auth.roblox.com/v2/signup", {
     })
     let challenge = await session.getChallenge()
 
-    console.log(challenge.data.game_data.game_variant, challenge.data.game_data.waves)
+    console.log("Signup", challenge.data.game_data.game_variant, challenge.data.game_data.waves)
 
     if (
         challenge.data.game_data.game_variant && (
@@ -57,8 +57,68 @@ undici.request("https://auth.roblox.com/v2/signup", {
             ].includes(challenge.data.game_data.game_variant)
         )
     ) {
-        console.log("Test failed :(")
+        console.log("Signup", "Test failed :(")
     } else {
-        console.log("Test passed!")
+        console.log("Singup", "Test passed!")
+    }
+})
+
+undici.request("https://auth.roblox.com/v2/login", {
+    method: "POST",   
+}).then(async res => {
+    const csrf = res.headers["x-csrf-token"]
+    
+    const res2 = await undici.request("https://auth.roblox.com/v2/login", {
+        method: "POST",
+        headers: {
+            "x-csrf-token": csrf,
+            "content-type": "application/json",
+            "user-agent": USER_AGENT
+        },
+        body: JSON.stringify({
+            "ctype": "Username",
+            "cvalue": "Test",
+            "password": "Test",
+        })
+    })
+    const body = await res2.body.json()
+    
+    const fieldData = body.errors[0].fieldData.split(",")
+    const token = await funcaptcha.getToken({
+        pkey: "476068BF-9607-4799-B53D-966BE98E2B81",
+        surl: "https://roblox-api.arkoselabs.com",
+        data: {
+            "blob": fieldData[1],
+        },
+        headers: {
+            "User-Agent": USER_AGENT,
+        },
+    })
+
+    let session = new funcaptcha.Session(token, {
+        userAgent: USER_AGENT,
+    })
+    let challenge = await session.getChallenge()
+
+    console.log("Login", challenge.data.game_data.game_variant, challenge.data.game_data.waves)
+
+    if (
+        challenge.data.game_data.game_variant && (
+            challenge.data.game_data.game_variant.startsWith("dice_") ||
+            challenge.data.game_data.game_variant.startsWith("dart") ||
+            challenge.data.game_data.game_variant.startsWith("context-") ||
+            [
+                "shadow-icons",
+                "penguins",
+                "shadows",
+                "mismatched-jigsaw",
+                "stairs_walking",
+                "reflection",
+            ].includes(challenge.data.game_data.game_variant)
+        )
+    ) {
+        console.log("Login", "Test failed :(")
+    } else {
+        console.log("Login", "Test passed!")
     }
 })
