@@ -7,7 +7,6 @@ const funcaptcha = require("../lib")
 undici.request("https://auth.roblox.com/v2/signup", {
     method: "POST",
 }).then(async res => {
-    return
     const csrf = res.headers["x-csrf-token"]
 
     const res2 = await undici.request("https://auth.roblox.com/v2/signup", {
@@ -36,7 +35,6 @@ undici.request("https://auth.roblox.com/v2/signup", {
         },
         site: "https://www.roblox.com",
     })
-    console.log(token)
 
     let session = new funcaptcha.Session(token, {
         userAgent: USER_AGENT,
@@ -97,7 +95,6 @@ undici.request("https://auth.roblox.com/v2/login", {
                 "User-Agent": USER_AGENT,
             },
             site: "https://www.roblox.com",
-            proxy: "http://127.0.0.1:8889"
         })
 
         let session = new funcaptcha.Session(token, {
