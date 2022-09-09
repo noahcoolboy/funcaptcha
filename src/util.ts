@@ -275,7 +275,6 @@ function getBda(userAgent: string): string {
     let key = userAgent + Math.round(time - (time % 21600));
     
     let s = JSON.stringify(bda);
-    
     let encrypted = crypt.encrypt(s, key);
     return Buffer.from(encrypted).toString("base64");
 }
