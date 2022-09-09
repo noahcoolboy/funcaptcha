@@ -1,5 +1,5 @@
 // Optional test for roblox detection
-const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36"
+const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"
 
 const undici = require("undici")
 const funcaptcha = require("../lib")
@@ -33,6 +33,7 @@ undici.request("https://auth.roblox.com/v2/signup", {
         headers: {
             "User-Agent": USER_AGENT,
         },
+        site: "https://www.roblox.com",
     })
 
     let session = new funcaptcha.Session(token, {
@@ -93,6 +94,7 @@ undici.request("https://auth.roblox.com/v2/login", {
         headers: {
             "User-Agent": USER_AGENT,
         },
+        site: "https://www.roblox.com",
     })
 
     let session = new funcaptcha.Session(token, {
@@ -122,3 +124,5 @@ undici.request("https://auth.roblox.com/v2/login", {
         console.log("Login", "Test passed!")
     }
 })
+
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
