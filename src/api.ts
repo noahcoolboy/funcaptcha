@@ -53,7 +53,7 @@ export async function getToken(
         options.surl,
         {
             method: "POST",
-            path: "/fc/gt2/public_key/" + options.pkey,
+            path: "/fc/gt2/public_key/?public_key=" + options.pkey,
             body: util.constructFormData({
                 bda: util.getBda(ua),
                 public_key: options.pkey,

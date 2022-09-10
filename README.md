@@ -79,8 +79,7 @@ function ask(question) {
 }
 
 fun.getToken({
-    pkey: "476068BF-9607-4799-B53D-966BE98E2B81",
-    surl: "https://roblox-api.arkoselabs.com"
+    pkey: "69A21A01-CC7B-B9C6-0F9A-E7FA06677FFC",
 }).then(async token => { 
     let session = new fun.Session(token)
     let challenge = await session.getChallenge()
