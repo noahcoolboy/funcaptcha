@@ -271,11 +271,9 @@ function getBda(userAgent: string): string {
         },
     ];
 
-    let time = new Date().getTime() / 1000;
-    let key = userAgent + Math.round(time - (time % 21600));
-    
+    let time = new Date().getTime() / 1000;    
     let s = JSON.stringify(bda);
-    let encrypted = crypt.encrypt(s, key);
+    let encrypted = crypt.encrypt(s, userAgent); // pass useragent instead
     return Buffer.from(encrypted).toString("base64");
 }
 
