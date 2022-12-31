@@ -17,6 +17,9 @@ export interface TokenInfo {
     lurl: string;
     surl: string;
     smurl: string;
+    kbio: boolean;
+    mbio: boolean;
+    tbio: boolean;
 }
 export interface SessionOptions {
     userAgent?: string;

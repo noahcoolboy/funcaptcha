@@ -8,6 +8,7 @@ export interface GetTokenOptions {
         [key: string]: string;
     };
     site?: string;
+    location?: string;
     proxy?: string;
 }
 export interface GetTokenResult {

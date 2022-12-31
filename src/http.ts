@@ -1,4 +1,5 @@
 import { request, ProxyAgent } from "undici";
+// @ts-ignore
 import { RequestOptions } from "undici/types/dispatcher";
 
 async function req(url: string, options: RequestOptions, proxy?: string) {
