@@ -1,6 +1,11 @@
+interface TimestampData {
+    cookie: string;
+    value: string;
+}
 declare function tileToLoc(tile: number): number[];
 declare function constructFormData(data: {}): string;
-declare function getBda(userAgent: string): string;
+declare function getTimestamp(): TimestampData;
+declare function getBda(userAgent: string, referer?: string, location?: string): string;
 declare const _default: {
     DEFAULT_USER_AGENT: string;
     tileToLoc: typeof tileToLoc;
@@ -28,5 +33,6 @@ declare const _default: {
         method_4: (c: any) => any[];
         method_5: (c: any) => number[];
     };
+    getTimestamp: typeof getTimestamp;
 };
 export default _default;
