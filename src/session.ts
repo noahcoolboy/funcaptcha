@@ -20,6 +20,12 @@ export interface TokenInfo {
     lurl: string;
     surl: string;
     smurl: string;
+    // Enable keyboard biometrics
+    kbio: boolean;
+    // Enable mouse biometrics
+    mbio: boolean;
+    // Enable touch biometrics
+    tbio: boolean;
 }
 
 export interface SessionOptions {
@@ -53,6 +59,7 @@ export class Session {
             this.token = "token=" + this.token;
 
         this.tokenInfo = parseToken(this.token);
+        this.tokenInfo.mbio = typeof(token) !== "string" ? token.mbio ?? false : false
         this.userAgent = sessionOptions?.userAgent || util.DEFAULT_USER_AGENT;
         this.proxy = sessionOptions?.proxy;
     }
@@ -75,7 +82,8 @@ export class Session {
                     "User-Agent": this.userAgent,
                     "Content-Type": "application/x-www-form-urlencoded",
                     "Accept-Language": "en-US,en;q=0.9",
-                    "Sec-Fetch-Site": "cross-site",
+                    "Sec-Fetch-Site": "same-origin",
+                    "Referer": this.getEmbedUrl()
                 },
             },
             this.proxy

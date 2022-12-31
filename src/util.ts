@@ -2,6 +2,11 @@ import fingerprint from "./fingerprint";
 import murmur from "./murmur";
 import crypt from "./crypt";
 
+interface TimestampData {
+    cookie: string;
+    value: string;
+}
+
 const DEFAULT_USER_AGENT =
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36";
 
@@ -60,13 +65,18 @@ function random(): string {
         .join("");
 }
 
-function getBda(userAgent: string): string {
+function getTimestamp(): TimestampData {
+    const time = (new Date()).getTime().toString()
+    const value = `${time.substring(0, 7)}00${time.substring(7, 13)}`
+
+    return { cookie: `timestamp=${value};path=/;secure;samesite=none`, value }
+}
+
+function getBda(userAgent: string, referer?: string, location?: string): string {
     let fp = fingerprint.getFingerprint();
     let fe = fingerprint.prepareFe(fp);
 
     let bda = [
-        { key: "fe", value: fe },
-        { key: "ife_hash", value: murmur(fe.join(", "), 38) },
         { key: "api_type", value: "js" },
         { key: "p", value: 1 },
         { key: "f", value: murmur(fingerprint.prepareF(fingerprint), 31) },
@@ -77,21 +87,6 @@ function getBda(userAgent: string): string {
             ).toString("base64"),
         },
         { key: "wh", value: `${random()}|${random()}` },
-        { key: "cs", value: 1 },
-        {
-            key: "jsbd",
-            value: JSON.stringify({
-                HL: 3,
-                NCE: true,
-                DT: "Roblox",
-                NWD: "false",
-                DA: null,
-                DR: null,
-                DMT: 19,
-                DO: null,
-                DOT: 19,
-            }),
-        },
         {
             "key": "enhanced_fp",
             "value": [
@@ -173,7 +168,7 @@ function getBda(userAgent: string): string {
                 },
                 {
                     "key": "user_agent_data_brands",
-                    "value": "Google Chrome,Not)A;Brand,Chromium"
+                    "value": "Not?A_Brand,Chromium,Google Chrome"
                 },
                 {
                     "key": "user_agent_data_mobile",
@@ -213,19 +208,19 @@ function getBda(userAgent: string): string {
                 },
                 {
                     "key": "window_inner_width",
-                    "value": 1920
+                    "value": 852
                 },
                 {
                     "key": "window_inner_height",
-                    "value": 1089
+                    "value": 543
                 },
                 {
                     "key": "window_outer_width",
-                    "value": 1912
+                    "value": 1920
                 },
                 {
                     "key": "window_outer_height",
-                    "value": 1152
+                    "value": 1080
                 },
                 {
                     "key": "browser_detection_firefox",
@@ -260,6 +255,30 @@ function getBda(userAgent: string): string {
                     "value": false
                 },
                 {
+                    "key": "window__ancestor_origins",
+                    "value": [
+                        
+                    ]
+                },
+                {
+                    "key": "window__tree_index",
+                    "value": [
+                        
+                    ]
+                },
+                {
+                    "key": "window__tree_structure",
+                    "value": "[[],[]]"
+                },
+                {
+                    "key": "client_config__surl",
+                    "value": null
+                },
+                {
+                    "key": "client_config__language",
+                    "value": "en"
+                },
+                {
                     "value": true,
                     "key": "navigator_battery_charging"
                 },
@@ -269,7 +288,45 @@ function getBda(userAgent: string): string {
                 }
             ]
         },
+        { key: "fe", value: fe },
+        { key: "ife_hash", value: murmur(fe.join(", "), 38) },  
+        { key: "cs", value: 1 },
+        {
+            key: "jsbd",
+            value: JSON.stringify({
+                HL: 3,
+                NCE: true,
+                DT: "Roblox",
+                NWD: "false",
+                DA: null,
+                DR: null,
+                DMT: 25,
+                DO: null,
+                DOT: 25,
+            }),
+        },
     ];
+
+    const enhanced_fp = bda.find((val) => val.key === "enhanced_fp")?.value
+
+    if (enhanced_fp instanceof Array) {
+        if (referer)
+            enhanced_fp.push({
+                "key": "document__referrer",
+                "value": referer
+            })
+
+        if (location) {
+            enhanced_fp.push({
+                "key": "window__location_href",
+                "value": location
+            })
+            enhanced_fp.push({
+                "key": "client_config__sitedata_location_href",
+                "value": location
+            })
+        }
+    }
 
     let time = new Date().getTime() / 1000;
     let key = userAgent + Math.round(time - (time % 21600));
@@ -285,4 +342,5 @@ export default {
     constructFormData,
     getBda,
     apiBreakers,
+    getTimestamp,
 };

@@ -4,7 +4,7 @@ const baseFingerprint = {
     D: 24, // Screen color depth (in bits)
     PR: 1, // Pixel ratio
     S: [1920, 1200], // Screen resolution
-    AS: [1920, 1160], // Available screen resolution
+    AS: [1920, 1200], // Available screen resolution
     TO: 9999, // Timezone offset
     SS: true, // Screen orientation (landscape/portrait)
     LS: true, // Local storage available
@@ -328,9 +328,9 @@ function getFingerprint() {
     fingerprint["D"] = [1, 4, 8, 15, 16, 24, 32, 48][
         Math.floor(Math.random() * 8)
     ];
-    fingerprint["PR"] = Math.random() * 2 + 0.5;
-    //fingerprint["S"] = randomScreenRes();
-    //fingerprint["AS"] = [fingerprint["S"][0], fingerprint["S"][1] - 40];
+    fingerprint["PR"] = Math.round(Math.random() * 100) / 100 * 2 + 0.5;
+    fingerprint["S"] = randomScreenRes();
+    fingerprint["AS"] = [fingerprint["S"][0], fingerprint["S"][1] - 40];
     fingerprint["TO"] = (Math.floor(Math.random() * 24) - 12) * 60;
     fingerprint["SS"] = Math.random() > 0.5;
     fingerprint["LS"] = Math.random() > 0.5;

@@ -8,6 +8,8 @@ export interface GetTokenOptions {
     data?: { [key: string]: string };
     headers?: { [key: string]: string };
     site?: string;
+    // Page URL
+    location?: string;
     proxy?: string;
 }
 
@@ -47,6 +49,12 @@ export async function getToken(
     options.headers["Sec-Fetch-Site"] = "cross-site";
     options.headers["Accept"] = "*/*";
     options.headers["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8";
+    options.headers["sec-fetch-mode"] = "cors"
+
+    if (options.site) {
+        options.headers["Origin"] = options.site
+        options.headers["Referer"] = `${options.site}/`
+    }
 
     let ua = options.headers[Object.keys(options.headers).find(v => v.toLowerCase() == "user-agent")]
     let res = await request(
@@ -55,7 +63,7 @@ export async function getToken(
             method: "POST",
             path: "/fc/gt2/public_key/?public_key=" + options.pkey,
             body: util.constructFormData({
-                bda: util.getBda(ua),
+                bda: util.getBda(ua, options.headers["Referer"], options.location),
                 public_key: options.pkey,
                 site: options.site,
                 userbrowser: ua,
