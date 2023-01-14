@@ -1,5 +1,5 @@
 declare function getFingerprint(): {
-    DNT: number;
+    DNT: string;
     L: string;
     D: number;
     PR: number;
