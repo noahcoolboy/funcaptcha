@@ -348,7 +348,7 @@ function getFingerprint() {
         "Win16",
         "Win32",
         "WinCE",
-    ][Math.floor(Math.random() * 7)];
+    ][Math.floor(Math.random() * fingerprint["PK"].length)];
     fingerprint[
         "CFP"
     ] = `canvas winding:yes~canvas fp:data:image/png;base64,${Buffer.from(
