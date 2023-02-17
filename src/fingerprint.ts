@@ -1,5 +1,5 @@
 const baseFingerprint = {
-    DNT: 1, // Do not track On/Off
+    DNT: "unknown", // Do not track On/Off | Previous Value: 1
     L: "en-US", // Browser language
     D: 24, // Screen color depth (in bits)
     PR: 1, // Pixel ratio
@@ -323,7 +323,7 @@ function getFingerprint() {
     let fingerprint = { ...baseFingerprint }; // Create a copy of the base fingerprint
 
     // Randomization time!
-    fingerprint["DNT"] = Math.round(Math.random());
+    fingerprint["DNT"] = "unknown"; //Math.round(Math.random());
     fingerprint["L"] = languages[Math.floor(Math.random() * languages.length)];
     fingerprint["D"] = [1, 4, 8, 15, 16, 24, 32, 48][
         Math.floor(Math.random() * 8)
@@ -337,9 +337,9 @@ function getFingerprint() {
     fingerprint["IDB"] = Math.random() > 0.5;
     fingerprint["B"] = Math.random() > 0.5;
     fingerprint["ODB"] = Math.random() > 0.5;
-    fingerprint["CPUC"] = ["68K", "Alpha", "PPC", "x86", "Other", "unknown"][
+    fingerprint["CPUC"] = "unknown"; /*["68K", "Alpha", "PPC", "x86", "Other", "unknown"][
         Math.floor(Math.random() * 5)
-    ];
+    ];*/
     fingerprint["PK"] = [
         "HP-UX",
         "Mac68K",
