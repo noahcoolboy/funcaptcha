@@ -96,6 +96,7 @@ undici.request("https://auth.roblox.com/v2/login", {
                 "User-Agent": USER_AGENT,
             },
             site: "https://www.roblox.com",
+            location: "https://www.roblox.com/login"
         })
 
         let session = new funcaptcha.Session(token, {
