@@ -96,7 +96,7 @@ function getBda(userAgent: string, referer?: string, location?: string): string 
                 },
                 {
                     "key": "webgl_extensions_hash",
-                    "value": "58a5a04a5bef1a78fa88d5c5098bd237"
+                    "value": random()
                 },
                 {
                     "key": "webgl_renderer",
@@ -164,7 +164,7 @@ function getBda(userAgent: string, referer?: string, location?: string): string 
                 },
                 {
                     "key": "webgl_hash_webgl",
-                    "value": "c96a5728a321427881c51f4c17406cc2"
+                    "value": random()
                 },
                 {
                     "key": "user_agent_data_brands",
