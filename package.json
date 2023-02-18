@@ -1,6 +1,6 @@
 {
     "name": "funcaptcha",
-    "version": "1.0.33",
+    "version": "1.0.34",
     "description": "A library used to interact with funcaptchas.",
     "author": "noahcoolboy",
     "license": "MIT",
