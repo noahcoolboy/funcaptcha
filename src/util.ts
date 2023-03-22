@@ -72,7 +72,7 @@ function getTimestamp(): TimestampData {
     return { cookie: `timestamp=${value};path=/;secure;samesite=none`, value }
 }
 
-function getBda(userAgent: string, referer?: string, location?: string): string {
+function getBda(userAgent: string, publicKey: string, referer?: string, location?: string): string {
     let fp = fingerprint.getFingerprint();
     let fe = fingerprint.prepareFe(fp);
 
@@ -268,7 +268,7 @@ function getBda(userAgent: string, referer?: string, location?: string): string 
                 },
                 {
                     "key": "window__tree_structure",
-                    "value": "[[],[]]"
+                    "value": "[[],[[]]]"
                 },
                 {
                     "key": "client_config__surl",
@@ -278,9 +278,9 @@ function getBda(userAgent: string, referer?: string, location?: string): string 
                     "key": "client_config__language",
                     "value": "en"
                 },
-                {
-                    "value": true,
-                    "key": "navigator_battery_charging"
+                {   
+                    "key": "navigator_battery_charging",
+                    "value": true
                 },
                 {
                     "key": "audio_fingerprint",
@@ -294,15 +294,11 @@ function getBda(userAgent: string, referer?: string, location?: string): string 
         {
             key: "jsbd",
             value: JSON.stringify({
-                HL: 3,
-                NCE: true,
-                DT: "Roblox",
+                HL: 4,
+                DT: "",
                 NWD: "false",
-                DA: null,
-                DR: null,
-                DMT: 25,
-                DO: null,
-                DOT: 25,
+                DOTO: 1,
+                DMTO: 1,
             }),
         },
     ];
@@ -328,6 +324,7 @@ function getBda(userAgent: string, referer?: string, location?: string): string 
         }
     }
 
+
     let time = new Date().getTime() / 1000;
     let key = userAgent + Math.round(time - (time % 21600));
     
@@ -343,4 +340,5 @@ export default {
     getBda,
     apiBreakers,
     getTimestamp,
+    random
 };
