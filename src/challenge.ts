@@ -65,6 +65,9 @@ export abstract class Challenge {
             let req = await request(v, {
                 method: "GET",
                 path: undefined,
+                headers: {
+                    "User-Agent": this.userAgent,
+                },
             });
             return req.body;
         });

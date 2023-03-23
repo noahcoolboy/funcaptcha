@@ -52,8 +52,8 @@ export async function getToken(
     options.headers["sec-fetch-mode"] = "cors"
 
     if (options.site) {
-        options.headers["Origin"] = options.site
-        options.headers["Referer"] = `${options.site}/`
+        options.headers["Origin"] = options.surl
+        options.headers["Referer"] = `${options.surl}/v2/${options.pkey}/enforcement.${util.random()}.html`
     }
 
     let ua = options.headers[Object.keys(options.headers).find(v => v.toLowerCase() == "user-agent")]
@@ -63,7 +63,7 @@ export async function getToken(
             method: "POST",
             path: "/fc/gt2/public_key/" + options.pkey,
             body: util.constructFormData({
-                bda: util.getBda(ua, options.headers["Referer"], options.location),
+                bda: util.getBda(ua, options.pkey, options.headers["Referer"], options.location),
                 public_key: options.pkey,
                 site: options.site,
                 userbrowser: ua,

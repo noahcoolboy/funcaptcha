@@ -389,7 +389,7 @@ function getFingerprint() {
         "WinCE",
     ][Math.floor(Math.random() * 7)];
 
-    fingerprint["CFP"] = ''; // We can't really randomise this
+    fingerprint["CFP"] = `canvas winding:yes~canvas fp:data:image/png;base64,${Buffer.from(Math.random().toString()).toString("base64")}`; // We can't really randomise this
     fingerprint["FR"] = false; // Fake Resolution
     fingerprint["FOS"] = false; // Fake Operating System
     fingerprint["FB"] = false; // Fake Browser
@@ -441,7 +441,7 @@ function prepareFe(fingerprint) {
 
 function cfpHash(H8W) {
     var l8W, U8W;
-    //if (!H8W) return "";
+    if (!H8W) return "";
     if (Array.prototype.reduce)
         return H8W.split("").reduce(function (p8W, z8W) {
             p8W = (p8W << 5) - p8W + z8W.charCodeAt(0);
