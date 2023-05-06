@@ -17,7 +17,7 @@ declare function getFingerprint(): {
     FR: boolean;
     FOS: boolean;
     FB: boolean;
-    JSF: string[];
+    JSF: string;
     P: string[];
     T: (number | boolean)[];
     H: number;

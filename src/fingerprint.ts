@@ -19,7 +19,7 @@ const baseFingerprint = {
     FR: false, // Fake screen resolution?
     FOS: false, // Fake OS?
     FB: false, // Fake Browser?
-    JSF: [
+    JSF: '', /*[
         "Andale Mono",
         "Arial",
         "Arial Black",
@@ -85,7 +85,7 @@ const baseFingerprint = {
         "Wingdings",
         "Wingdings 2",
         "Wingdings 3",
-    ], // Available fonts
+    ], // Available fonts*/
     P: [
         "Chrome PDF Plugin::Portable Document Format::application/x-google-chrome-pdf~pdf",
         "Chrome PDF Viewer::::application/pdf~pdf",
@@ -389,11 +389,11 @@ function getFingerprint() {
         "WinCE",
     ][Math.floor(Math.random() * 7)];
 
-    fingerprint["CFP"] = `canvas winding:yes~canvas fp:data:image/png;base64,${Buffer.from(Math.random().toString()).toString("base64")}`; // We can't really randomise this
+    fingerprint["CFP"] = ''
     fingerprint["FR"] = false; // Fake Resolution
     fingerprint["FOS"] = false; // Fake Operating System
     fingerprint["FB"] = false; // Fake Browser
-    fingerprint["JSF"] = fingerprint["JSF"].filter(() => Math.random() > 0.5);
+    fingerprint["JSF"] = '';//fingerprint["JSF"].filter(() => Math.random() > 0.5);
     fingerprint["P"] = fingerprint["P"].filter(() => Math.random() > 0.5);
     fingerprint["T"] = [
         Math.floor(Math.random() * 8),
@@ -421,9 +421,9 @@ function prepareFe(fingerprint) {
     let keys = Object.keys(fingerprint);
     for (let i = 0; i < keys.length; i++) {
         switch (keys[i]) {
-            case "CFP":
+            /* case "CFP":
                 fe.push(`${keys[i]}:${cfpHash(fingerprint[keys[i]])}`);
-                break;
+                break; */
             case "P":
                 fe.push(
                     `${keys[i]}:${fingerprint[keys[i]].map(
