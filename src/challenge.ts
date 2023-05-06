@@ -103,6 +103,7 @@ export abstract class Challenge {
                 headers: {
                     "User-Agent": this.userAgent,
                     "Content-Type": "application/x-www-form-urlencoded",
+                    "Referer": this.data.tokenInfo.surl,
                 },
                 body: util.constructFormData({
                     session_token: this.data.session_token,

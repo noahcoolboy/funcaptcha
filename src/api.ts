@@ -46,17 +46,18 @@ export async function getToken(
         options.headers["User-Agent"] = util.DEFAULT_USER_AGENT;
 
     options.headers["Accept-Language"] = "en-US,en;q=0.9";
-    options.headers["Sec-Fetch-Site"] = "cross-site";
+    options.headers["Sec-Fetch-Site"] = "same-origin";
     options.headers["Accept"] = "*/*";
     options.headers["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8";
     options.headers["sec-fetch-mode"] = "cors"
 
     if (options.site) {
         options.headers["Origin"] = options.surl
-        options.headers["Referer"] = `${options.surl}/v2/${options.pkey}/enforcement.${util.random()}.html`
+        options.headers["Referer"] = `${options.surl}/v2/${options.pkey}/1.4.3/enforcement.${util.random()}.html`
     }
-
+    
     let ua = options.headers[Object.keys(options.headers).find(v => v.toLowerCase() == "user-agent")]
+
     let res = await request(
         options.surl,
         {
@@ -68,7 +69,6 @@ export async function getToken(
                 site: options.site,
                 userbrowser: ua,
                 rnd: Math.random().toString(),
-                language: "en",
                 ...Object.fromEntries(Object.keys(options.data).map(v => ["data[" + v + "]", options.data[v]]))
             }),
             headers: options.headers,

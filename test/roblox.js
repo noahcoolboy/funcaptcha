@@ -4,6 +4,7 @@ const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
 const undici = require("undici")
 const funcaptcha = require("../lib")
 
+/*
 undici.request("https://auth.roblox.com/v2/signup", {
     method: "POST",
 }).then(async res => {
@@ -39,7 +40,7 @@ undici.request("https://auth.roblox.com/v2/signup", {
         let session = new funcaptcha.Session(token, {
             userAgent: USER_AGENT,
         })
-        let challenge = await session.getChallenge()
+        let challenge = await session.getChallenge().catch((err) => console.log('signup fail', err))
     
         console.log("Signup", challenge.data.game_data.game_variant, challenge.data.game_data.waves)
     
@@ -64,6 +65,8 @@ undici.request("https://auth.roblox.com/v2/signup", {
         }
     }, 2500)
 })
+*/
+
 
 undici.request("https://auth.roblox.com/v2/login", {
     method: "POST",
@@ -85,12 +88,13 @@ undici.request("https://auth.roblox.com/v2/login", {
     })
     const body = await res2.body.json()
     setTimeout(async () => {
-        const fieldData = JSON.parse(body.errors[0].fieldData)
+        const fieldData = JSON.parse(Buffer.from(res2.headers["rblx-challenge-metadata"], "base64"))
+
         const token = await funcaptcha.getToken({
             pkey: "476068BF-9607-4799-B53D-966BE98E2B81",
-            surl: "https://roblox-api.arkoselabs.com",
+            surl: "https://client-api.arkoselabs.com",
             data: {
-                "blob": fieldData.dxBlob,
+                "blob": fieldData.dataExchangeBlob,
             },
             headers: {
                 "User-Agent": USER_AGENT,
@@ -102,7 +106,7 @@ undici.request("https://auth.roblox.com/v2/login", {
         let session = new funcaptcha.Session(token, {
             userAgent: USER_AGENT,
         })
-        let challenge = await session.getChallenge()
+        let challenge = await session.getChallenge().catch((err) => console.log('login fail', err))
 
         console.log("Login", challenge.data.game_data.game_variant, challenge.data.game_data.waves)
 
