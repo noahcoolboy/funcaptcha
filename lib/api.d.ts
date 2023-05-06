@@ -10,6 +10,7 @@ export interface GetTokenOptions {
     site?: string;
     location?: string;
     proxy?: string;
+    canvasFp?: string;
 }
 export interface GetTokenResult {
     challenge_url: string;

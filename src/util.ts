@@ -72,8 +72,8 @@ function getTimestamp(): TimestampData {
     return { cookie: `timestamp=${value};path=/;secure;samesite=none`, value }
 }
 
-function getBda(userAgent: string, publicKey: string, referer?: string, location?: string): string {
-    let fp = fingerprint.getFingerprint();
+function getBda(userAgent: string, publicKey: string, referer?: string, location?: string, canvasFp?: string): string {
+    let fp = fingerprint.getFingerprint(canvasFp);
     let fe = fingerprint.prepareFe(fp);
 
     let bda = [

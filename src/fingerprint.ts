@@ -358,7 +358,7 @@ function randomScreenRes() {
 }
 
 // Get fingerprint
-function getFingerprint() {
+function getFingerprint(canvasFp?: string) {
     let fingerprint = { ...baseFingerprint }; // Create a copy of the base fingerprint
 
     // Randomization time!
@@ -389,11 +389,11 @@ function getFingerprint() {
         "WinCE",
     ][Math.floor(Math.random() * 7)];
 
-    fingerprint["CFP"] = ''
+    fingerprint["CFP"] = canvasFp || ''; // Canvas Fingerprint
     fingerprint["FR"] = false; // Fake Resolution
     fingerprint["FOS"] = false; // Fake Operating System
     fingerprint["FB"] = false; // Fake Browser
-    fingerprint["JSF"] = '';//fingerprint["JSF"].filter(() => Math.random() > 0.5);
+    fingerprint["JSF"] = ''; //fingerprint["JSF"].filter(() => Math.random() > 0.5);
     fingerprint["P"] = fingerprint["P"].filter(() => Math.random() > 0.5);
     fingerprint["T"] = [
         Math.floor(Math.random() * 8),
@@ -436,6 +436,7 @@ function prepareFe(fingerprint) {
                 break;
         }
     }
+
     return fe;
 }
 

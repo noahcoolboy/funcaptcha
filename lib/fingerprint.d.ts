@@ -1,4 +1,4 @@
-declare function getFingerprint(): {
+declare function getFingerprint(canvasFp?: string): {
     DNT: string;
     L: string;
     D: number;
