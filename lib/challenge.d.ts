@@ -14,7 +14,7 @@ interface ChallengeData {
         customGUI: {
             _guiFontColr: string;
             _challenge_imgs: string[];
-            api_breaker: string;
+            api_breaker: any;
             encrypted_mode: number;
             example_images: {
                 correct: string;
@@ -22,6 +22,7 @@ interface ChallengeData {
             };
         };
         waves: number;
+        instruction_string: string;
         game_variant: string;
     };
     game_sid: string;
@@ -67,5 +68,11 @@ export declare class Challenge3 extends Challenge {
     private answerHistory;
     constructor(data: ChallengeData, challengeOptions: ChallengeOptions);
     answer(tile: number): Promise<AnswerResponse>;
+}
+export declare class Challenge4 extends Challenge {
+    private answerHistory;
+    constructor(data: ChallengeData, challengeOptions: ChallengeOptions);
+    answer(tile: number): Promise<AnswerResponse>;
+    get instruction(): string;
 }
 export {};

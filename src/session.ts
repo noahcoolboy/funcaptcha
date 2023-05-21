@@ -1,5 +1,5 @@
 import { GetTokenResult } from "./api";
-import { Challenge, Challenge1, Challenge3 } from "./challenge";
+import { Challenge, Challenge1, Challenge3, Challenge4 } from "./challenge";
 import http from "./http";
 import util from "./util";
 
@@ -26,6 +26,8 @@ export interface TokenInfo {
     mbio: boolean;
     // Enable touch biometrics
     tbio: boolean;
+
+    challenge_url_cdn: string;
 }
 
 export interface SessionOptions {
@@ -43,9 +45,10 @@ let parseToken = (token: string): TokenInfo =>
 export class Session {
     public token: string;
     public tokenInfo: TokenInfo;
+    private tokenRaw: GetTokenResult;
     private userAgent: string;
     private proxy: string;
-
+    
     constructor(
         token: string | GetTokenResult,
         sessionOptions?: SessionOptions
@@ -54,6 +57,7 @@ export class Session {
             this.token = token;
         } else {
             this.token = token.token;
+            this.tokenRaw = token;
         }
         if (!this.token.startsWith("token="))
             this.token = "token=" + this.token;
@@ -65,25 +69,36 @@ export class Session {
     }
 
     async getChallenge(): Promise<Challenge> {
+        const requestData = {
+            sid: this.tokenInfo.r,
+            render_type: "canvas",
+            token: this.tokenInfo.token,
+            analytics_tier: this.tokenInfo.at,
+            lang: "",
+            apiBreakerVersion: undefined,
+            isAudioGame: undefined
+        }
+
+        if (this.tokenRaw && this.tokenRaw.challenge_url_cdn.includes('game_core')) {
+            requestData.apiBreakerVersion = "green"
+            requestData.isAudioGame = false
+        } else {
+            requestData["data%5Bstatus%5D"] = "init"
+        }
+
         let res = await http(
             this.tokenInfo.surl,
             {
                 path: "/fc/gfct/",
                 method: "POST",
-                body: util.constructFormData({
-                    sid: this.tokenInfo.r,
-                    render_type: "canvas",
-                    token: this.tokenInfo.token,
-                    analytics_tier: this.tokenInfo.at,
-                    "data%5Bstatus%5D": "init",
-                    lang: "en",
-                }),
+                body: util.constructFormData(requestData),
                 headers: {
                     "User-Agent": this.userAgent,
                     "Content-Type": "application/x-www-form-urlencoded",
                     "Accept-Language": "en-US,en;q=0.9",
                     "Sec-Fetch-Site": "same-origin",
-                    "Referer": this.getEmbedUrl()
+                    "Referer": this.getEmbedUrl(),
+                    "X-Requested-With": "XMLHttpRequest",
                 },
             },
             this.proxy
@@ -100,6 +115,11 @@ export class Session {
             });
         } else if (data.game_data.gameType == 3) {
             return new Challenge3(data, {
+                proxy: this.proxy,
+                userAgent: this.userAgent,
+            });
+        } else if (data.game_data.gameType == 4) {
+            return new Challenge4(data, {
                 proxy: this.proxy,
                 userAgent: this.userAgent,
             });

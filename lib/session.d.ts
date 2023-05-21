@@ -20,6 +20,7 @@ export interface TokenInfo {
     kbio: boolean;
     mbio: boolean;
     tbio: boolean;
+    challenge_url_cdn: string;
 }
 export interface SessionOptions {
     userAgent?: string;
@@ -28,6 +29,7 @@ export interface SessionOptions {
 export declare class Session {
     token: string;
     tokenInfo: TokenInfo;
+    private tokenRaw;
     private userAgent;
     private proxy;
     constructor(token: string | GetTokenResult, sessionOptions?: SessionOptions);

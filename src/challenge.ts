@@ -19,7 +19,7 @@ interface ChallengeData {
         customGUI: {
             _guiFontColr: string;
             _challenge_imgs: string[];
-            api_breaker: string;
+            api_breaker: any;
             encrypted_mode: number;
             example_images: {
                 correct: string;
@@ -27,6 +27,7 @@ interface ChallengeData {
             }
         };
         waves: number;
+        instruction_string: string;
         game_variant: string;
     };
     game_sid: string;
@@ -195,13 +196,34 @@ export class Challenge3 extends Challenge {
 
     async answer(tile: number): Promise<AnswerResponse> {
         assert(tile >= 0 && tile <= 5, "Tile must be between 0 and 5");
+        const apiBreaker = this.data.game_data.customGUI.api_breaker
+        let pos: number[] | Object = util.tileToLoc(tile);
+        // @ts-ignore
+        if (typeof(apiBreaker) === "object" && apiBreaker.key && apiBreaker.value) {
+            pos = {
+                x: pos[0],
+                y: pos[1],
+                px: (pos[0] / 100).toString(),
+                py: (pos[1] / 100).toString(),
+            }
+
+            const apiBreakerFunctions = util.apiBreakers2.type_3
+
+            this.answerHistory.push(
+                // @ts-ignore
+                apiBreakerFunctions.key[apiBreaker.key](
+                    // @ts-ignore
+                    util.breakerValue(apiBreaker.value || [ "alpha" ], apiBreakerFunctions.value)(pos)
+                )
+            );
+        } else {
+            this.answerHistory.push(
+                util.apiBreakers[
+                    apiBreaker || "default"
+                ](pos)
+            );
+        }
         
-        let pos = util.tileToLoc(tile);
-        this.answerHistory.push(
-            util.apiBreakers[
-                this.data.game_data.customGUI.api_breaker || "default"
-            ](pos)
-        );
         let encrypted = await crypt.encrypt(
             JSON.stringify(this.answerHistory),
             this.data.session_token
@@ -235,5 +257,71 @@ export class Challenge3 extends Challenge {
         this.key = reqData.decryption_key || "";
         this.wave++;
         return reqData;
+    }
+}
+
+export class Challenge4 extends Challenge {
+    private answerHistory = [];
+
+    constructor(data: ChallengeData, challengeOptions: ChallengeOptions) {
+        super(data, challengeOptions);
+    }
+
+    async answer(tile: number): Promise<AnswerResponse> {
+        assert(tile >= 0 && tile <= 5, "Tile must be between 0 and 5");
+        const apiBreaker = this.data.game_data.customGUI.api_breaker
+
+        // @ts-ignore
+        if (typeof(apiBreaker) === "object" && apiBreaker.key && apiBreaker.value) {
+            const apiBreakerFunctions = util.apiBreakers2.type_4
+
+            this.answerHistory.push(
+                // @ts-ignore
+                apiBreakerFunctions.key[apiBreaker.key](
+                    // @ts-ignore
+                    util.breakerValue(apiBreaker.value || [ "alpha" ], apiBreakerFunctions.value)({ index: tile })
+                )
+            );
+        } else {
+            throw "Invalid API breaker"
+        }
+        
+        let encrypted = await crypt.encrypt(
+            JSON.stringify(this.answerHistory),
+            this.data.session_token
+        );
+        let requestedId = await crypt.encrypt(JSON.stringify({}), `REQUESTED${this.data.session_token}ID`);
+        let { cookie: tCookie, value: tValue } = util.getTimestamp();
+        let req = await request(
+            this.data.tokenInfo.surl,
+            {
+                method: "POST",
+                path: "/fc/ca/",
+                headers: {
+                    "User-Agent": this.userAgent,
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-Newrelic-Timestamp": tValue,
+                    "X-Requested-ID": requestedId,
+                    "Cookie": tCookie,
+                },
+                body: util.constructFormData({
+                    session_token: this.data.session_token,
+                    game_token: this.data.challengeID,
+                    guess: encrypted,
+                    analytics_tier: this.data.tokenInfo.at,
+                    sid: this.data.tokenInfo.r,
+                    bio: this.data.tokenInfo.mbio && "eyJtYmlvIjoiMTI1MCwwLDE0NywyMDQ7MTg5NCwwLDE1MSwyMDA7MTk2MCwxLDE1MiwxOTk7MjAyOSwyLDE1MiwxOTk7MjU3NSwwLDE1NSwxOTU7MjU4NSwwLDE1NiwxOTA7MjU5NSwwLDE1OCwxODU7MjYwNCwwLDE1OSwxODA7MjYxMywwLDE2MCwxNzU7MjYyMSwwLDE2MSwxNzA7MjYzMCwwLDE2MywxNjU7MjY0MCwwLDE2NCwxNjA7MjY1MCwwLDE2NSwxNTU7MjY2NCwwLDE2NiwxNTA7MjY3NywwLDE2NiwxNDQ7MjY5NCwwLDE2NywxMzk7MjcyMCwwLDE2NywxMzM7Mjc1NCwwLDE2NywxMjc7Mjc4MywwLDE2NywxMjE7MjgxMiwwLDE2NywxMTU7Mjg0MywwLDE2NywxMDk7Mjg2MywwLDE2NywxMDM7Mjg3NSwwLDE2Niw5ODsyOTA1LDAsMTY1LDkzOzMyMzIsMCwxNjUsOTk7MzI2MiwwLDE2NSwxMDU7MzI5OSwwLDE2NCwxMTA7MzM0MCwwLDE2MSwxMTU7MzM3MiwwLDE1NywxMjA7MzM5NSwwLDE1MywxMjQ7MzQwOCwwLDE0OCwxMjc7MzQyMCwwLDE0MywxMzA7MzQyOSwwLDEzOCwxMzE7MzQ0MSwwLDEzMywxMzQ7MzQ1MCwwLDEyOCwxMzU7MzQ2MSwwLDEyMywxMzg7MzQ3NiwwLDExOCwxNDA7MzQ4OSwwLDExMywxNDI7MzUwMywwLDEwOCwxNDM7MzUxOCwwLDEwMywxNDQ7MzUzNCwwLDk4LDE0NTszNTU2LDAsOTMsMTQ2OzM2MTUsMCw4OCwxNDg7MzY2MiwwLDgzLDE1MTszNjgzLDAsNzgsMTU0OzM3MDEsMCw3MywxNTc7MzcyNSwwLDY5LDE2MTszNzkzLDEsNjgsMTYyOzM4NTEsMiw2OCwxNjI7IiwidGJpbyI6IiIsImtiaW8iOiIifQ=="
+                }),
+            },
+            this.proxy
+        );
+        let reqData = JSON.parse(req.body.toString());
+        this.key = reqData.decryption_key || "";
+        this.wave++;
+        return reqData;
+    }
+
+    get instruction() {
+        return this.data.string_table[`4.instructions-${this.data.game_data.instruction_string}`]?.replace(/<\/*\w+>/g, '');
     }
 }

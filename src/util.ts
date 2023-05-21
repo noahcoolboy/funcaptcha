@@ -36,6 +36,163 @@ let apiBreakers = {
     },
 };
 
+let apiBreakers2 = {
+    type_3: {
+        value: {
+            alpha: function (c) {
+              return {
+                x: c.x,
+                y: (c.y + c.x) * c.x,
+                px: c.px,
+                py: c.py,
+              }
+            },
+            beta: function (c) {
+              return {
+                x: c.y,
+                y: c.x,
+                px: c.py,
+                py: c.px,
+              }
+            },
+            gamma: function (c) {
+              return {
+                x: c.y + 1,
+                y: -c.x,
+                px: c.px,
+                py: c.py,
+              }
+            },
+            delta: function (c) {
+              return {
+                x: c.y + 0.25,
+                y: c.x + 0.5,
+                px: c.px,
+                py: c.py,
+              }
+            },
+            epsilon: function (c) {
+              return {
+                x: 0.5 * c.x,
+                y: 5 * c.y,
+                px: c.px,
+                py: c.py,
+              }
+            },
+            zeta: function (c) {
+              return {
+                x: c.x + 1,
+                y: c.y + 2,
+                px: c.px,
+                py: c.py,
+              }
+            },
+          },
+          key: {
+            alpha: function (c) {
+              return [c.y, c.px, c.py, c.x]
+            },
+            beta: function (c) {
+              return JSON.stringify({
+                x: c.x,
+                y: c.y,
+                px: c.px,
+                py: c.py,
+              })
+            },
+            gamma: function (c) {
+              return [c.x, c.y, c.px, c.py].join(' ')
+            },
+            delta: function (c) {
+              return [1, c.x, 2, c.y, 3, c.px, 4, c.py]
+            },
+            epsilon: function (c) {
+              return {
+                answer: {
+                  x: c.x,
+                  y: c.y,
+                  px: c.px,
+                  py: c.py,
+                },
+              }
+            },
+            zeta: function (c) {
+              return [c.x, [c.y, [c.px, [c.py]]]]
+            },
+          },
+    },
+    type_4: {
+        value: {
+            alpha: function (c) {
+              // @ts-ignore
+              return { index: String(c.index) + 0x1 - 0x2 }
+            },
+            beta: function (c) {
+              return { index: -c.index }
+            },
+            gamma: function (c) {
+              return { index: 3 * (3 - c.index) }
+            },
+            delta: function (c) {
+              return { index: 7 * c.index }
+            },
+            epsilon: function (c) {
+              return { index: 2 * c.index }
+            },
+            zeta: function (c) {
+              return { index: c.index ? 100 / c.index : c.index }
+            },
+          },
+        key: {
+            alpha: function (c) {
+                return [
+                    Math.round(100 * Math.random()),
+                    c.index,
+                    Math.round(100 * Math.random()),
+                ]
+            },
+            beta: function (c) {
+                return {
+                    size: 50 - c.index,
+                    id: c.index,
+                    limit: 10 * c.index,
+                    req_timestamp: Date.now(),
+                }
+            },
+            gamma: function (c) {
+                return c.index
+            },
+            delta: function (c) {
+                return { index: c.index }
+            },
+            epsilon: function (c) {
+                for (
+                    var
+                        arr = [],
+                        r1 = Math.round(5 * Math.random()) + 1,
+                        r2 = Math.floor(Math.random() * r1),
+                        i = 0;
+                    i < r1;
+                    i++
+                ) {
+                    arr.push(i == r2 ? c.index : Math.round(10 * Math.random()))
+                }
+
+                return arr.push(r2), arr
+            },
+            zeta: function (c) {
+                return Array(Math.round(5 * Math.random()) + 1).concat([ c.index ])
+            },
+        },
+    }
+};
+
+function breakerValue(values, breakers): Array<Function> {
+    return values.reduce((currentFunc: Function, value: string) => {
+        return breakers[value] ?  (answer: Object) => currentFunc(breakers[value](answer)) : currentFunc
+    }, (func: Function) => func)
+}
+
 function tileToLoc(tile: number): number[] {
     return [
         (tile % 3) * 100 +
@@ -72,9 +229,10 @@ function getTimestamp(): TimestampData {
     return { cookie: `timestamp=${value};path=/;secure;samesite=none`, value }
 }
 
-function getBda(userAgent: string, publicKey: string, referer?: string, location?: string, canvasFp?: string): string {
+function getBda(userAgent: string, surl: string, referer?: string, location?: string, canvasFp?: string): string {
     let fp = fingerprint.getFingerprint(canvasFp);
     let fe = fingerprint.prepareFe(fp);
+  
 
     let bda = [
         { key: "api_type", value: "js" },
@@ -96,7 +254,7 @@ function getBda(userAgent: string, publicKey: string, referer?: string, location
                 },
                 {
                     "key": "webgl_extensions_hash",
-                    "value": random()
+                    "value": "58a5a04a5bef1a78fa88d5c5098bd237"
                 },
                 {
                     "key": "webgl_renderer",
@@ -168,7 +326,7 @@ function getBda(userAgent: string, publicKey: string, referer?: string, location
                 },
                 {
                     "key": "user_agent_data_brands",
-                    "value": "Chromium,Google Chrome,Not:A-Brand"
+                    "value": "Google Chrome,Chromium,Not-A.Brand"
                 },
                 {
                     "key": "user_agent_data_mobile",
@@ -184,7 +342,7 @@ function getBda(userAgent: string, publicKey: string, referer?: string, location
                 },
                 {
                     "key": "network_info_rtt",
-                    "value": 50
+                    "value": 100
                 },
                 {
                     "key": "network_info_save_data",
@@ -272,7 +430,7 @@ function getBda(userAgent: string, publicKey: string, referer?: string, location
                 },
                 {
                     "key": "client_config__surl",
-                    "value": null
+                    "value": surl || null
                 },
                 {
                     "key": "client_config__language",
@@ -297,7 +455,7 @@ function getBda(userAgent: string, publicKey: string, referer?: string, location
         {
             key: "jsbd",
             value: JSON.stringify({
-                HL: 4,
+                HL: 3,
                 DT: "",
                 NWD: "false",
                 DOTO: 1,
@@ -305,8 +463,9 @@ function getBda(userAgent: string, publicKey: string, referer?: string, location
             }),
         },
     ];
+    
 
-    const enhanced_fp = bda.find((val) => val.key === "enhanced_fp")?.value
+    const enhanced_fp: any = bda.find((val) => val.key === "enhanced_fp")?.value
 
     if (enhanced_fp instanceof Array) {
         if (referer)
@@ -341,6 +500,8 @@ export default {
     constructFormData,
     getBda,
     apiBreakers,
+    apiBreakers2,
+    breakerValue,
     getTimestamp,
     random
 };
