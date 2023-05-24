@@ -4,7 +4,6 @@ const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
 const undici = require("undici")
 const funcaptcha = require("../lib")
 
-/*
 undici.request("https://auth.roblox.com/v2/signup", {
     method: "POST",
 }).then(async res => {
@@ -22,14 +21,14 @@ undici.request("https://auth.roblox.com/v2/signup", {
             "password": "",
         })
     })
-    const body = await res2.body.json()
     setTimeout(async () => {
-        const fieldData = body.errors[0].fieldData.split(",")
+        const fieldData = JSON.parse(Buffer.from(res2.headers["rblx-challenge-metadata"], "base64"))
+
         const token = await funcaptcha.getToken({
             pkey: "A2A14B1D-1AF3-C791-9BBC-EE33CC7A0A6F",
             surl: "https://roblox-api.arkoselabs.com",
             data: {
-                "blob": fieldData[1],
+                "blob": fieldData.dataExchangeBlob,
             },
             headers: {
                 "User-Agent": USER_AGENT,
@@ -42,7 +41,7 @@ undici.request("https://auth.roblox.com/v2/signup", {
         })
         let challenge = await session.getChallenge().catch((err) => console.log('signup fail', err))
     
-        console.log("Signup", challenge.data.game_data.game_variant, challenge.data.game_data.waves)
+        console.log("Signup", challenge.data.game_data.game_variant || challenge.data.game_data.instruction_string, challenge.data.game_data.waves)
     
         if (
             challenge.data.game_data.game_variant && (
@@ -57,6 +56,9 @@ undici.request("https://auth.roblox.com/v2/signup", {
                     "stairs_walking",
                     "reflection",
                 ].includes(challenge.data.game_data.game_variant)
+            ) ||
+            challenge.data.instruction_string && (
+                challenge.data.game_data.waves <= 5
             )
         ) {
             console.log("Signup", "Test failed :(")
@@ -65,7 +67,7 @@ undici.request("https://auth.roblox.com/v2/signup", {
         }
     }, 2500)
 })
-*/
+
 
 
 undici.request("https://auth.roblox.com/v2/login", {
@@ -86,7 +88,7 @@ undici.request("https://auth.roblox.com/v2/login", {
             "password": "Test",
         })
     })
-    const body = await res2.body.json()
+
     setTimeout(async () => {
         const fieldData = JSON.parse(Buffer.from(res2.headers["rblx-challenge-metadata"], "base64"))
 
@@ -108,7 +110,7 @@ undici.request("https://auth.roblox.com/v2/login", {
         })
         let challenge = await session.getChallenge().catch((err) => console.log('login fail', err))
 
-        console.log("Login", challenge.data.game_data.game_variant, challenge.data.game_data.waves)
+        console.log("Login", challenge.data.game_data.game_variant || challenge.data.game_data.instruction_string, challenge.data.game_data.waves)
 
         if (
             challenge.data.game_data.game_variant && (
@@ -123,6 +125,9 @@ undici.request("https://auth.roblox.com/v2/login", {
                     "stairs_walking",
                     "reflection",
                 ].includes(challenge.data.game_data.game_variant)
+            ) ||
+            challenge.data.instruction_string && (
+                challenge.data.game_data.waves <= 5
             )
         ) {
             console.log("Login", "Test failed :(")
