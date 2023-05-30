@@ -65,7 +65,7 @@ export async function getToken(
             method: "POST",
             path: "/fc/gt2/public_key/" + options.pkey,
             body: util.constructFormData({
-                bda: util.getBda(ua, options.surl, options.headers["Referer"], options.location, options.canvasFp),
+                bda: util.getBda(ua, options.pkey, options.surl, options.headers["Referer"], options.location, options.canvasFp),
                 public_key: options.pkey,
                 site: options.site,
                 userbrowser: ua,

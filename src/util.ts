@@ -229,7 +229,7 @@ function getTimestamp(): TimestampData {
     return { cookie: `timestamp=${value};path=/;secure;samesite=none`, value }
 }
 
-function getBda(userAgent: string, surl: string, referer?: string, location?: string, canvasFp?: string): string {
+function getBda(userAgent: string, pkey: string, surl: string, referer?: string, location?: string, canvasFp?: string): string {
     let fp = fingerprint.getFingerprint(canvasFp);
     let fe = fingerprint.prepareFe(fp);
   
@@ -342,7 +342,7 @@ function getBda(userAgent: string, surl: string, referer?: string, location?: st
                 },
                 {
                     "key": "network_info_rtt",
-                    "value": 100
+                    "value": 50
                 },
                 {
                     "key": "network_info_save_data",
@@ -362,7 +362,7 @@ function getBda(userAgent: string, surl: string, referer?: string, location?: st
                 },
                 {
                     "key": "navigator_languages",
-                    "value": "en-US,fr,fr-FR,en,nl"
+                    "value": "en-US"
                 },
                 {
                     "key": "window_inner_width",
@@ -398,7 +398,7 @@ function getBda(userAgent: string, surl: string, referer?: string, location?: st
                 },
                 {
                     "key": "media_query_dark_mode",
-                    "value": true
+                    "value": false
                 },
                 {
                     "key": "headless_browser_phantom",
@@ -415,18 +415,22 @@ function getBda(userAgent: string, surl: string, referer?: string, location?: st
                 {
                     "key": "window__ancestor_origins",
                     "value": [
-
+                        "https://www.roblox.com",
+                        "https://www.roblox.com"
                     ]
                 },
                 {
                     "key": "window__tree_index",
                     "value": [
-
                     ]
                 },
                 {
                     "key": "window__tree_structure",
-                    "value": "[[],[[]]]"
+                    "value": "[[[]]]"
+                },
+                {
+                    "key": "window__location_href",
+                    "value": `https://client-api.arkoselabs.com/v2/${pkey}/1.4.3/enforcement.${random()}.html`
                 },
                 {
                     "key": "client_config__surl",
@@ -463,7 +467,6 @@ function getBda(userAgent: string, surl: string, referer?: string, location?: st
             }),
         },
     ];
-    
 
     const enhanced_fp: any = bda.find((val) => val.key === "enhanced_fp")?.value
 
@@ -475,10 +478,10 @@ function getBda(userAgent: string, surl: string, referer?: string, location?: st
             })
 
         if (location) {
-            enhanced_fp.push({
-                "key": "window__location_href",
-                "value": location
-            })
+            // enhanced_fp.push({
+            //     "key": "window__location_href",
+            //     "value": location
+            // })
             enhanced_fp.push({
                 "key": "client_config__sitedata_location_href",
                 "value": location

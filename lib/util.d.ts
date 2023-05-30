@@ -7,7 +7,7 @@ declare function tileToLoc(tile: number): number[];
 declare function constructFormData(data: {}): string;
 declare function random(): string;
 declare function getTimestamp(): TimestampData;
-declare function getBda(userAgent: string, surl: string, referer?: string, location?: string, canvasFp?: string): string;
+declare function getBda(userAgent: string, pkey: string, surl: string, referer?: string, location?: string, canvasFp?: string): string;
 declare const _default: {
     DEFAULT_USER_AGENT: string;
     tileToLoc: typeof tileToLoc;

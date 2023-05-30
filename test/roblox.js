@@ -1,5 +1,5 @@
 // Optional test for roblox detection
-const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"
+const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"
 
 const undici = require("undici")
 const funcaptcha = require("../lib")
@@ -26,7 +26,7 @@ undici.request("https://auth.roblox.com/v2/signup", {
 
         const token = await funcaptcha.getToken({
             pkey: "A2A14B1D-1AF3-C791-9BBC-EE33CC7A0A6F",
-            surl: "https://roblox-api.arkoselabs.com",
+            surl: "https://client-api.arkoselabs.com",
             data: {
                 "blob": fieldData.dataExchangeBlob,
             },
@@ -34,6 +34,7 @@ undici.request("https://auth.roblox.com/v2/signup", {
                 "User-Agent": USER_AGENT,
             },
             site: "https://www.roblox.com",
+            location: "https://www.roblox.com/"
         })
     
         let session = new funcaptcha.Session(token, {
@@ -57,8 +58,8 @@ undici.request("https://auth.roblox.com/v2/signup", {
                     "reflection",
                 ].includes(challenge.data.game_data.game_variant)
             ) ||
-            challenge.data.instruction_string && (
-                challenge.data.game_data.waves <= 5
+            challenge.data.game_data.instruction_string && (
+                challenge.data.game_data.waves > 5
             )
         ) {
             console.log("Signup", "Test failed :(")
@@ -126,8 +127,8 @@ undici.request("https://auth.roblox.com/v2/login", {
                     "reflection",
                 ].includes(challenge.data.game_data.game_variant)
             ) ||
-            challenge.data.instruction_string && (
-                challenge.data.game_data.waves <= 5
+            challenge.data.game_data.instruction_string && (
+                challenge.data.game_data.waves > 5
             )
         ) {
             console.log("Login", "Test failed :(")
