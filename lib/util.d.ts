@@ -109,7 +109,7 @@ declare const _default: {
                     index: number;
                 };
                 zeta: (c: any) => {
-                    index: any;
+                    index: number;
                 };
             };
             key: {

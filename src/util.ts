@@ -151,7 +151,7 @@ let apiBreakers2 = {
             },
             'zeta': function(c) {
                 return {
-                    'index': c.index ? 0x64 / c.index : c.index
+                    'index': Number(c.index) !== 0 ? 100 / Number(c.index) : Number(c.index) //c.index ? 0x64 / c.index : c.index
                 };
             }
         },
