@@ -69,6 +69,9 @@ export async function getToken(
                 public_key: options.pkey,
                 site: options.site,
                 userbrowser: ua,
+                capi_version: "1.4.3",
+                capi_mode: "inline",
+                style_theme: "default",
                 rnd: Math.random().toString(),
                 ...Object.fromEntries(Object.keys(options.data).map(v => ["data[" + v + "]", options.data[v]]))
             }),

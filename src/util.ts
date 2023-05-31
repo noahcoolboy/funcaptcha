@@ -122,75 +122,228 @@ let apiBreakers2 = {
           },
     },
     type_4: {
-        value: {
-            alpha: function (c) {
-              // @ts-ignore
-              return { index: String(c.index) + 0x1 - 0x2 }
-            },
-            beta: function (c) {
-              return { index: -c.index }
-            },
-            gamma: function (c) {
-              return { index: 3 * (3 - c.index) }
-            },
-            delta: function (c) {
-              return { index: 7 * c.index }
-            },
-            epsilon: function (c) {
-              return { index: 2 * c.index }
-            },
-            zeta: function (c) {
-              return { index: c.index ? 100 / c.index : c.index }
-            },
-          },
-        key: {
-            alpha: function (c) {
-                return [
-                    Math.round(100 * Math.random()),
-                    c.index,
-                    Math.round(100 * Math.random()),
-                ]
-            },
-            beta: function (c) {
+        'value': {
+            'alpha': function(c) {
                 return {
-                    size: 50 - c.index,
-                    id: c.index,
-                    limit: 10 * c.index,
-                    req_timestamp: Date.now(),
-                }
+                    // @ts-ignore
+                    'index': String(c.index) + 0x1 - 0x2
+                };
             },
-            gamma: function (c) {
+            'beta': function(c) {
+                return {
+                    'index': -c.index
+                };
+            },
+            'gamma': function(c) {
+                return {
+                    'index': 0x3 * (0x3 - c.index)
+                };
+            },
+            'delta': function(c) {
+                return {
+                    'index': 0x7 * c.index
+                };
+            },
+            'epsilon': function(c) {
+                return {
+                    'index': 0x2 * c.index
+                };
+            },
+            'zeta': function(c) {
+                return {
+                    'index': c.index ? 0x64 / c.index : c.index
+                };
+            }
+        },
+        'key': {
+            'alpha': function(c) {
+                return [Math.round(0x64 * Math.random()), c.index, Math.round(0x64 * Math.random())];
+            },
+            'beta': function(c) {
+                return {
+                    'size': 0x32 - c.index,
+                    'id': c.index,
+                    'limit': 0xa * c.index,
+                    'req_timestamp': Date.now()
+                };
+            },
+            'gamma': function(c) {
                 return c.index
             },
-            delta: function (c) {
-                return { index: c.index }
+            'delta': function(c) {
+                return {
+                    'index': c.index
+                };
             },
-            epsilon: function (c) {
-                for (
-                    var
-                        arr = [],
-                        r1 = Math.round(5 * Math.random()) + 1,
-                        r2 = Math.floor(Math.random() * r1),
-                        i = 0;
-                    i < r1;
-                    i++
-                ) {
-                    arr.push(i == r2 ? c.index : Math.round(10 * Math.random()))
-                }
-
-                return arr.push(r2), arr
+            'epsilon': function(c) {
+                for (var c1 = c.index, c2 = [], c3 = Math['round'](0x5 * Math['random']()) + 0x1, c4 = Math.floor(Math['random']() * c3), c5 = 0x0; c5 < c3; c5++)
+                    c2.push(c5 == c4 ? c1 : Math.round(0xa * Math['random']()));
+                return c2.push(c4),
+                c2;
             },
-            zeta: function (c) {
-                return Array(Math.round(5 * Math.random()) + 1).concat([ c.index ])
-            },
-        },
+            'zeta': function(c) {
+                return Array(Math.round(0x5 * Math.random()) + 0x1).concat([ c.index ]);
+            }
+        }
     }
 };
 
+// let apiBreakers2 = {
+//     type_3: {
+//         value: {
+//             alpha: function (c) {
+//               return {
+//                 x: c.x,
+//                 y: (c.y + c.x) * c.x,
+//                 px: c.px,
+//                 py: c.py,
+//               }
+//             },
+//             beta: function (c) {
+//               return {
+//                 x: c.y,
+//                 y: c.x,
+//                 px: c.py,
+//                 py: c.px,
+//               }
+//             },
+//             gamma: function (c) {
+//               return {
+//                 x: c.y + 1,
+//                 y: -c.x,
+//                 px: c.px,
+//                 py: c.py,
+//               }
+//             },
+//             delta: function (c) {
+//               return {
+//                 x: c.y + 0.25,
+//                 y: c.x + 0.5,
+//                 px: c.px,
+//                 py: c.py,
+//               }
+//             },
+//             epsilon: function (c) {
+//               return {
+//                 x: 0.5 * c.x,
+//                 y: 5 * c.y,
+//                 px: c.px,
+//                 py: c.py,
+//               }
+//             },
+//             zeta: function (c) {
+//               return {
+//                 x: c.x + 1,
+//                 y: c.y + 2,
+//                 px: c.px,
+//                 py: c.py,
+//               }
+//             },
+//           },
+//           key: {
+//             alpha: function (c) {
+//               return [c.y, c.px, c.py, c.x]
+//             },
+//             beta: function (c) {
+//               return JSON.stringify({
+//                 x: c.x,
+//                 y: c.y,
+//                 px: c.px,
+//                 py: c.py,
+//               })
+//             },
+//             gamma: function (c) {
+//               return [c.x, c.y, c.px, c.py].join(' ')
+//             },
+//             delta: function (c) {
+//               return [1, c.x, 2, c.y, 3, c.px, 4, c.py]
+//             },
+//             epsilon: function (c) {
+//               return {
+//                 answer: {
+//                   x: c.x,
+//                   y: c.y,
+//                   px: c.px,
+//                   py: c.py,
+//                 },
+//               }
+//             },
+//             zeta: function (c) {
+//               return [c.x, [c.y, [c.px, [c.py]]]]
+//             },
+//           },
+//     },
+//     type_4: {
+//         value: {
+//             alpha: function (c) {
+//               // @ts-ignore
+//               return { index: String(c.index) + 0x1 - 0x2 }
+//             },
+//             beta: function (c) {
+//               return { index: -c.index }
+//             },
+//             gamma: function (c) {
+//               return { index: 0x3 * (0x3 - c.index) };
+//             },
+//             delta: function (c) {
+//               return { index: 7 * c.index }
+//             },
+//             epsilon: function (c) {
+//               return { index: 2 * c.index }
+//             },
+//             zeta: function (c) {
+//               return { index: c.index ? 100 / c.index : c.index }
+//             },
+//           },
+//         key: {
+//             alpha: function (c) {
+//                 return [
+//                     Math.round(100 * Math.random()),
+//                     c.index,
+//                     Math.round(100 * Math.random()),
+//                 ]
+//             },
+//             beta: function (c) {
+//                 return {
+//                     size: 50 - c.index,
+//                     id: c.index,
+//                     limit: 10 * c.index,
+//                     req_timestamp: Date.now(),
+//                 }
+//             },
+//             gamma: function (c) {
+//                 return c.index
+//             },
+//             delta: function (c) {
+//                 return { index: c.index }
+//             },
+//             epsilon: function (c) {
+//                 for (
+//                     var
+//                         arr = [],
+//                         r1 = Math.round(5 * Math.random()) + 1,
+//                         r2 = Math.floor(Math.random() * r1),
+//                         i = 0;
+//                     i < r1;
+//                     i++
+//                 ) {
+//                     arr.push(i == r2 ? c.index : Math.round(10 * Math.random()))
+//                 }
+
+//                 return arr.push(r2), arr
+//             },
+//             zeta: function (c) {
+//                 return Array(Math.round(5 * Math.random()) + 1).concat([ c.index ])
+//             },
+//         },
+//     }
+// };
+
+
 function breakerValue(values, breakers): Array<Function> {
     return values.reduce((currentFunc: Function, value: string) => {
-        return breakers[value] ?  (answer: Object) => currentFunc(breakers[value](answer)) : currentFunc
-    }, (func: Function) => func)
+        return breakers[value] ?  (answer: Object) => breakers[value](currentFunc(answer)) : currentFunc
+    }, (val: any) => val)
 }
 
 function tileToLoc(tile: number): number[] {
