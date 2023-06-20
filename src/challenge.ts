@@ -70,7 +70,7 @@ export abstract class Challenge {
                 path: undefined,
                 headers: {
                     "User-Agent": this.userAgent,
-                    "Referer": `https://client-api.arkoselabs.com/fc/assets/ec-game-core/game-core/1.12.0/standard/index.html?session=${this.data.session_token}&r=${tokenData.r}&meta=${tokenData.meta}&metabgclr=${tokenData.metabgclr}&metaiconclr=${encodeURIComponent(tokenData.metaiconclr)}&maintxtclr=${encodeURIComponent(tokenData.maintxtclr)}&guitextcolor=${encodeURIComponent(tokenData.guitextcolor)}&pk=${tokenData.pk}&at=${tokenData.at}&ag=${tokenData.ag}&cdn_url=${encodeURIComponent(tokenData.cdn_url)}&lurl=${encodeURIComponent(tokenData.lurl)}&surl=${encodeURIComponent(tokenData.surl)}&smurl=${encodeURIComponent(tokenData.smurl)}&theme=default`,
+                    "Referer": util.getEmbedUrl(tokenData),
                 },
             });
             return req.body;
@@ -314,16 +314,7 @@ export class Challenge4 extends Challenge {
             "X-Requested-ID": requestedId,
             "Cookie": tCookie,
             "X-Requested-With": "XMLHttpRequest",
-            "Referer": `https://client-api.arkoselabs.com/fc/assets/ec-game-core/game-core/1.12.0/standard/index.html?session=${this.data.session_token}&r=${tokenData.r}&meta=${tokenData.meta}&metabgclr=${tokenData.metabgclr}&metaiconclr=${encodeURIComponent(tokenData.metaiconclr)}&maintxtclr=${encodeURIComponent(tokenData.maintxtclr)}&guitextcolor=${encodeURIComponent(tokenData.guitextcolor)}&pk=${tokenData.pk}&at=${tokenData.at}&ag=${tokenData.ag}&cdn_url=${encodeURIComponent(tokenData.cdn_url)}&lurl=${encodeURIComponent(tokenData.lurl)}&surl=${encodeURIComponent(tokenData.surl)}&smurl=${encodeURIComponent(tokenData.smurl)}&theme=default`,
-
-            /*
-            "Origin": "https://client-api.arkoselabs.com",
-            "Referer": `https://client-api.arkoselabs.com/fc/assets/ec-game-core/game-core/1.12.0/standard/index.html?session=${this.data.session_token}&r=${tokenData.r}&meta=${tokenData.meta}&metabgclr=${tokenData.metabgclr}&metaiconclr=${encodeURIComponent(tokenData.metaiconclr)}&maintxtclr=${encodeURIComponent(tokenData.maintxtclr)}&guitextcolor=${encodeURIComponent(tokenData.guitextcolor)}&pk=${tokenData.pk}&at=${tokenData.at}&ag=${tokenData.ag}&cdn_url=${encodeURIComponent(tokenData.cdn_url)}&lurl=${encodeURIComponent(tokenData.lurl)}&surl=${encodeURIComponent(tokenData.surl)}&smurl=${encodeURIComponent(tokenData.smurl)}&theme=default`,
-            "Sec-Fetch-Dest": "empty",
-            "Sec-Fetch-Mode": "cors",
-            "Sec-Fetch-Site": "same-origin",
-            "Accept-Language": "en-US,en;q=0.9",
-            "Cache-Control": "no-cache"*/
+            "Referer": util.getEmbedUrl(tokenData),
         }
 
         let req = await request(

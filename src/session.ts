@@ -29,6 +29,7 @@ export interface TokenInfo {
 
     challenge_url_cdn: string;
     ag: string;
+    rid?: string;
     maintxtclr: string;
 }
 
@@ -99,7 +100,7 @@ export class Session {
                     "Content-Type": "application/x-www-form-urlencoded",
                     "Accept-Language": "en-US,en;q=0.9",
                     "Sec-Fetch-Site": "same-origin",
-                    "Referer": this.getEmbedUrl(),
+                    "Referer": util.getEmbedUrl(this.tokenInfo),
                     "X-Requested-With": "XMLHttpRequest",
                 },
             },
@@ -134,8 +135,6 @@ export class Session {
     }
 
     getEmbedUrl(): string {
-        return `${this.tokenInfo.surl}/fc/gc/?${util.constructFormData(
-            this.tokenInfo
-        )}`;
+        return util.getEmbedUrl(this.tokenInfo);
     }
 }

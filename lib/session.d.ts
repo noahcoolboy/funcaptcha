@@ -22,6 +22,7 @@ export interface TokenInfo {
     tbio: boolean;
     challenge_url_cdn: string;
     ag: string;
+    rid?: string;
     maintxtclr: string;
 }
 export interface SessionOptions {

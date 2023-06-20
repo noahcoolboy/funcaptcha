@@ -1,6 +1,7 @@
 import fingerprint from "./fingerprint";
 import murmur from "./murmur";
 import crypt from "./crypt";
+import { TokenInfo } from "./session"
 
 interface TimestampData {
     cookie: string;
@@ -382,6 +383,10 @@ function getTimestamp(): TimestampData {
     return { cookie: `timestamp=${value};path=/;secure;samesite=none`, value }
 }
 
+function getEmbedUrl(tokenData: TokenInfo): string {
+    return `${tokenData.surl}/fc/assets/ec-game-core/game-core/1.12.1/standard/index.html?session=${tokenData.token}&r=${tokenData.r}&meta=${tokenData.meta}&metabgclr=${tokenData.metabgclr}&metaiconclr=${encodeURIComponent(tokenData.metaiconclr)}&maintxtclr=${encodeURIComponent(tokenData.maintxtclr)}&guitextcolor=${encodeURIComponent(tokenData.guitextcolor)}&pk=${tokenData.pk}&at=${tokenData.at}${tokenData.rid ? '&rid=' + tokenData.rid : ''}&ag=${tokenData.ag}&cdn_url=${encodeURIComponent(tokenData.cdn_url)}&lurl=${encodeURIComponent(tokenData.lurl)}&surl=${encodeURIComponent(tokenData.surl)}&smurl=${encodeURIComponent(tokenData.smurl)}&theme=default`
+}
+
 function getBda(userAgent: string, pkey: string, surl: string, referer?: string, location?: string, canvasFp?: string): string {
     let fp = fingerprint.getFingerprint(canvasFp);
     let fe = fingerprint.prepareFe(fp);
@@ -527,11 +532,11 @@ function getBda(userAgent: string, pkey: string, surl: string, referer?: string,
                 },
                 {
                     "key": "window_outer_width",
-                    "value": 1920
+                    "value": 1921
                 },
                 {
                     "key": "window_outer_height",
-                    "value": 1080
+                    "value": 1079
                 },
                 {
                     "key": "browser_detection_firefox",
@@ -583,7 +588,7 @@ function getBda(userAgent: string, pkey: string, surl: string, referer?: string,
                 },
                 {
                     "key": "window__location_href",
-                    "value": `https://client-api.arkoselabs.com/v2/${pkey}/1.4.3/enforcement.${random()}.html`
+                    "value": `${surl}/v2/${pkey}/1.4.3/enforcement.${random()}.html`
                 },
                 {
                     "key": "client_config__surl",
@@ -659,5 +664,6 @@ export default {
     apiBreakers2,
     breakerValue,
     getTimestamp,
-    random
+    random,
+    getEmbedUrl,
 };

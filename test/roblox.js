@@ -26,7 +26,7 @@ undici.request("https://auth.roblox.com/v2/signup", {
 
         const token = await funcaptcha.getToken({
             pkey: "A2A14B1D-1AF3-C791-9BBC-EE33CC7A0A6F",
-            surl: "https://client-api.arkoselabs.com",
+            surl: "https://roblox-api.arkoselabs.com",
             data: {
                 "blob": fieldData.dataExchangeBlob,
             },
@@ -40,10 +40,11 @@ undici.request("https://auth.roblox.com/v2/signup", {
         let session = new funcaptcha.Session(token, {
             userAgent: USER_AGENT,
         })
+
         let challenge = await session.getChallenge().catch((err) => console.log('signup fail', err))
-    
+     
         console.log("Signup", challenge.data.game_data.game_variant || challenge.data.game_data.instruction_string, challenge.data.game_data.waves)
-    
+
         if (
             challenge.data.game_data.game_variant && (
                 challenge.data.game_data.game_variant.startsWith("dice_") ||
@@ -95,7 +96,7 @@ undici.request("https://auth.roblox.com/v2/login", {
 
         const token = await funcaptcha.getToken({
             pkey: "476068BF-9607-4799-B53D-966BE98E2B81",
-            surl: "https://client-api.arkoselabs.com",
+            surl: "https://roblox-api.arkoselabs.com",
             data: {
                 "blob": fieldData.dataExchangeBlob,
             },
@@ -109,6 +110,7 @@ undici.request("https://auth.roblox.com/v2/login", {
         let session = new funcaptcha.Session(token, {
             userAgent: USER_AGENT,
         })
+
         let challenge = await session.getChallenge().catch((err) => console.log('login fail', err))
 
         console.log("Login", challenge.data.game_data.game_variant || challenge.data.game_data.instruction_string, challenge.data.game_data.waves)

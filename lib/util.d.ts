@@ -1,3 +1,4 @@
+import { TokenInfo } from "./session";
 interface TimestampData {
     cookie: string;
     value: string;
@@ -7,6 +8,7 @@ declare function tileToLoc(tile: number): number[];
 declare function constructFormData(data: {}): string;
 declare function random(): string;
 declare function getTimestamp(): TimestampData;
+declare function getEmbedUrl(tokenData: TokenInfo): string;
 declare function getBda(userAgent: string, pkey: string, surl: string, referer?: string, location?: string, canvasFp?: string): string;
 declare const _default: {
     DEFAULT_USER_AGENT: string;
@@ -132,5 +134,6 @@ declare const _default: {
     breakerValue: typeof breakerValue;
     getTimestamp: typeof getTimestamp;
     random: typeof random;
+    getEmbedUrl: typeof getEmbedUrl;
 };
 export default _default;
