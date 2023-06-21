@@ -36,6 +36,11 @@ undici.request("https://auth.roblox.com/v2/signup", {
             site: "https://www.roblox.com",
             location: "https://www.roblox.com/"
         })
+
+        if (token.token.includes('sup=1')) {
+            console.log("Signup", "Test passed with suppressed captcha!")
+            return
+        }
     
         let session = new funcaptcha.Session(token, {
             userAgent: USER_AGENT,
@@ -65,7 +70,7 @@ undici.request("https://auth.roblox.com/v2/signup", {
         ) {
             console.log("Signup", "Test failed :(")
         } else {
-            console.log("Singup", "Test passed!")
+            console.log("Signup", "Test passed!")
         }
     }, 2500)
 })
@@ -106,6 +111,11 @@ undici.request("https://auth.roblox.com/v2/login", {
             site: "https://www.roblox.com",
             location: "https://www.roblox.com/login"
         })
+
+        if (token.token.includes('sup=1')) {
+            console.log("Login", "Test passed with suppressed captcha!")
+            return
+        }
 
         let session = new funcaptcha.Session(token, {
             userAgent: USER_AGENT,
