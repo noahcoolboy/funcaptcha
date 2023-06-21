@@ -271,7 +271,7 @@ export class Challenge4 extends Challenge {
     }
 
     async answer(tile: number): Promise<AnswerResponse> {
-        assert(tile >= 0 && tile <= 5, "Tile must be between 0 and 5");
+        assert(tile >= 0, "Tile must be >= 0");
         const apiBreaker = this.data.game_data.customGUI.api_breaker
 
         // @ts-ignore
