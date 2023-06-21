@@ -286,7 +286,7 @@ export class Challenge4 extends Challenge {
                 )
             );
         } else {
-            throw "Invalid API breaker"
+            this.answerHistory.push({ index: tile })
         }
         
         let encrypted = await crypt.encrypt(
