@@ -536,7 +536,7 @@ function getBda(userAgent: string, pkey: string, surl: string, referer?: string,
                 },
                 {
                     "key": "window_outer_height",
-                    "value": 1079
+                    "value": 1060 - (Math.round(Math.random() * 10))
                 },
                 {
                     "key": "browser_detection_firefox",
