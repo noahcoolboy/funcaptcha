@@ -384,7 +384,8 @@ function getTimestamp(): TimestampData {
 }
 
 function getEmbedUrl(tokenData: TokenInfo): string {
-    return `${tokenData.surl}/fc/assets/ec-game-core/game-core/1.12.1/standard/index.html?session=${tokenData.token}&r=${tokenData.r}&meta=${tokenData.meta}&metabgclr=${tokenData.metabgclr}&metaiconclr=${encodeURIComponent(tokenData.metaiconclr)}&maintxtclr=${encodeURIComponent(tokenData.maintxtclr)}&guitextcolor=${encodeURIComponent(tokenData.guitextcolor)}&pk=${tokenData.pk}&at=${tokenData.at}${tokenData.rid ? '&rid=' + tokenData.rid : ''}&ag=${tokenData.ag}&cdn_url=${encodeURIComponent(tokenData.cdn_url)}&lurl=${encodeURIComponent(tokenData.lurl)}&surl=${encodeURIComponent(tokenData.surl)}&smurl=${encodeURIComponent(tokenData.smurl)}&theme=default`
+    const version = tokenData?.challenge_url_cdn?.match(/bootstrap\/(.+)\/standard/)?.[1] || "1.12.0"
+    return `${tokenData.surl}/fc/assets/ec-game-core/game-core/${version}/standard/index.html?session=${tokenData.token}&r=${tokenData.r}&meta=${tokenData.meta}&metabgclr=${tokenData.metabgclr}&metaiconclr=${encodeURIComponent(tokenData.metaiconclr)}&maintxtclr=${encodeURIComponent(tokenData.maintxtclr)}&guitextcolor=${encodeURIComponent(tokenData.guitextcolor)}&pk=${tokenData.pk}&at=${tokenData.at}${tokenData.rid ? '&rid=' + tokenData.rid : ''}&ag=${tokenData.ag}&cdn_url=${encodeURIComponent(tokenData.cdn_url)}&lurl=${encodeURIComponent(tokenData.lurl)}&surl=${encodeURIComponent(tokenData.surl)}&smurl=${encodeURIComponent(tokenData.smurl)}&theme=default`
 }
 
 function getBda(userAgent: string, pkey: string, surl: string, referer?: string, location?: string, canvasFp?: string): string {

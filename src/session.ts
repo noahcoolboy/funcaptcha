@@ -48,7 +48,6 @@ let parseToken = (token: string): TokenInfo =>
 export class Session {
     public token: string;
     public tokenInfo: TokenInfo;
-    private tokenRaw: GetTokenResult;
     private userAgent: string;
     private proxy: string;
     
@@ -56,17 +55,20 @@ export class Session {
         token: string | GetTokenResult,
         sessionOptions?: SessionOptions
     ) {
-        if (typeof token === "string") {
+        if (typeof token === "string")
             this.token = token;
-        } else {
+        else
             this.token = token.token;
-            this.tokenRaw = token;
-        }
+
         if (!this.token.startsWith("token="))
             this.token = "token=" + this.token;
 
-        this.tokenInfo = parseToken(this.token);
-        this.tokenInfo.mbio = typeof(token) !== "string" ? token.mbio ?? false : false
+        this.tokenInfo = { 
+            mbio: typeof(token) !== "string" ? token.mbio ?? false : false, 
+            challenge_url_cdn: typeof(token) === "object" ? token.challenge_url_cdn : "", 
+            ...parseToken(this.token) 
+        };
+
         this.userAgent = sessionOptions?.userAgent || util.DEFAULT_USER_AGENT;
         this.proxy = sessionOptions?.proxy;
     }
@@ -82,7 +84,7 @@ export class Session {
             isAudioGame: undefined
         }
 
-        if (this.tokenRaw && this.tokenRaw.challenge_url_cdn.includes('game_core')) {
+        if (this.tokenInfo.challenge_url_cdn.includes('game_core')) {
             requestData.apiBreakerVersion = "green"
             requestData.isAudioGame = false
         } else {

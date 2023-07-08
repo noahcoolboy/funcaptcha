@@ -97,6 +97,22 @@ export abstract class Challenge {
         return img;
     }
 
+    protected getHeaders() {
+        const requestedId = crypt.encrypt(JSON.stringify({ sc: [ 17 + Math.ceil(Math.random() * 268), 198 + Math.ceil(Math.random() * 30) ] }), `REQUESTED${this.data.session_token}ID`);
+        const { cookie: tCookie, value: tValue } = util.getTimestamp();
+        const tokenData = this.data.tokenInfo
+
+        return {
+            "User-Agent": this.userAgent,
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-Newrelic-Timestamp": tValue,
+            "X-Requested-ID": requestedId,
+            "Cookie": tCookie,
+            "X-Requested-With": "XMLHttpRequest",
+            "Referer": util.getEmbedUrl(tokenData),
+        }
+    }
+
     protected async getKey() {
         if (this.key) return this.key;
         let response = await request(
@@ -171,10 +187,7 @@ export class Challenge1 extends Challenge {
             {
                 method: "POST",
                 path: "/fc/ca/",
-                headers: {
-                    "User-Agent": this.userAgent,
-                    "Content-Type": "application/x-www-form-urlencoded",
-                },
+                headers: this.getHeaders(),
                 body: util.constructFormData({
                     session_token: this.data.session_token,
                     game_token: this.data.challengeID,
@@ -201,6 +214,7 @@ export class Challenge3 extends Challenge {
         assert(tile >= 0 && tile <= 5, "Tile must be between 0 and 5");
         const apiBreaker = this.data.game_data.customGUI.api_breaker
         let pos: number[] | Object = util.tileToLoc(tile);
+
         // @ts-ignore
         if (typeof(apiBreaker) === "object" && apiBreaker.key && apiBreaker.value) {
             pos = {
@@ -231,20 +245,13 @@ export class Challenge3 extends Challenge {
             JSON.stringify(this.answerHistory),
             this.data.session_token
         );
-        let requestedId = await crypt.encrypt(JSON.stringify({}), `REQUESTED${this.data.session_token}ID`);
-        let { cookie: tCookie, value: tValue } = util.getTimestamp();
+
         let req = await request(
             this.data.tokenInfo.surl,
             {
                 method: "POST",
                 path: "/fc/ca/",
-                headers: {
-                    "User-Agent": this.userAgent,
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    "X-Newrelic-Timestamp": tValue,
-                    "X-Requested-ID": requestedId,
-                    "Cookie": tCookie,
-                },
+                headers: this.getHeaders(),
                 body: util.constructFormData({
                     session_token: this.data.session_token,
                     game_token: this.data.challengeID,
@@ -293,9 +300,6 @@ export class Challenge4 extends Challenge {
             JSON.stringify(this.answerHistory),
             this.data.session_token
         );
-        let requestedId = await crypt.encrypt(JSON.stringify({ sc: [ 17 + Math.ceil(Math.random() * 268), 198 + Math.ceil(Math.random() * 30) ] }), `REQUESTED${this.data.session_token}ID`);
-        let { cookie: tCookie, value: tValue } = util.getTimestamp();
-        const tokenData = this.data.tokenInfo
 
         const formData = {
             session_token: this.data.session_token,
@@ -307,22 +311,12 @@ export class Challenge4 extends Challenge {
             bio: this.data.tokenInfo.mbio && "eyJtYmlvIjoiMTM5NSwwLDIyOSwxNjA7MTQwNCwwLDIzMCwxNTk7MTQxMCwwLDIzMSwxNTk7MTQxOCwwLDIzMiwxNTk7MTQyOCwwLDIzMywxNTk7MTQzNiwwLDIzNCwxNTk7MTQ0NiwwLDIzNSwxNTk7MTQ1MCwwLDIzNiwxNTk7MTQ2MCwwLDIzNiwxNTg7MTQ2NSwwLDIzNywxNTg7MTQ3OCwwLDIzOCwxNTg7MTQ5NSwwLDIzOSwxNTg7MTUxMywwLDI0MCwxNTg7MTUyNCwwLDI0MSwxNTg7MTU0MCwwLDI0MiwxNTg7MTU1MiwwLDI0MywxNTg7MTU3NCwwLDI0NCwxNTg7MTU5OSwwLDI0NSwxNTg7MTYxMCwwLDI0NiwxNTg7MTYyMiwwLDI0NywxNTg7MTYzNCwwLDI0OCwxNTg7MTY5NSwwLDI0OSwxNTg7MTcwNSwwLDI1MCwxNTg7MTcxNywwLDI1MSwxNTg7MTczMywwLDI1MiwxNTg7MTc0NCwwLDI1MywxNTg7MTc1OSwwLDI1NCwxNTg7MTg0OSwxLDI1NCwxNTg7MTkyMCwyLDI1NCwxNTg7MjE4NCwwLDI1NCwxNTk7MjE5MiwwLDI1NCwxNjA7MjE5NywwLDI1NCwxNjE7MjE5OSwwLDI1NCwxNjI7MjIwMywwLDI1NCwxNjM7MjIwNywwLDI1NCwxNjQ7MjIxMCwwLDI1NCwxNjU7MjIxMiwwLDI1NCwxNjY7MjIxNSwwLDI1MywxNjY7MjIxNiwwLDI1MywxNjc7MjIxOCwwLDI1MiwxNjg7MjIyMCwwLDI1MiwxNjk7MjIyMywwLDI1MSwxNzA7MjIyNCwwLDI1MSwxNzE7MjIyNywwLDI1MSwxNzI7MjIyOSwwLDI1MSwxNzM7MjIzMCwwLDI1MCwxNzM7MjIzMiwwLDI1MCwxNzU7MjIzNCwwLDI0OSwxNzU7MjIzNiwwLDI0OSwxNzY7MjIzOCwwLDI0OSwxNzc7MjIzOSwwLDI0OCwxNzc7MjI0MCwwLDI0OCwxNzg7MjI0MywwLDI0OCwxNzk7MjI0NCwwLDI0NywxNzk7MjI0NiwwLDI0NywxODA7MjI0OSwwLDI0NiwxODE7MjI1MSwwLDI0NiwxODI7MjI1NCwwLDI0NSwxODM7MjI1NiwwLDI0NSwxODQ7MjI1OCwwLDI0NSwxODU7MjI1OSwwLDI0NCwxODU7MjI2MCwwLDI0NCwxODY7MjI2MywwLDI0NCwxODc7MjI2NSwwLDI0NCwxODg7MjI2NiwwLDI0MywxODg7MjI2OCwwLDI0MywxODk7MjI3MCwwLDI0MiwxODk7MjI3MSwwLDI0MiwxOTA7MjI3MywwLDI0MiwxOTE7MjI3NywwLDI0MSwxOTI7MjI3OCwwLDI0MSwxOTM7MjI4MSwwLDI0MCwxOTQ7MjI4NSwwLDI0MCwxOTU7MjI4NiwwLDIzOSwxOTU7MjI4NywwLDIzOSwxOTY7MjI4OCwwLDIzOSwxOTc7MjI5MSwwLDIzOCwxOTc7MjI5MiwwLDIzOCwxOTg7MjI5NiwwLDIzNywxOTk7MjI5OSwwLDIzNywyMDA7MjMwMiwwLDIzNiwyMDA7MjMwNiwwLDIzNiwyMDE7MjMwOSwwLDIzNSwyMDE7MjMxMywwLDIzNSwyMDI7MjMxOCwwLDIzNCwyMDI7MjMyNSwwLDIzNCwyMDM7MjMyNywwLDIzMywyMDM7MjQ0NiwxLDIzMywyMDM7MjUxNiwyLDIzMywyMDM7IiwidGJpbyI6IiIsImtiaW8iOiIifQ=="
         }
 
-        const headers = {
-            "User-Agent": this.userAgent,
-            "Content-Type": "application/x-www-form-urlencoded",
-            "X-Newrelic-Timestamp": tValue,
-            "X-Requested-ID": requestedId,
-            "Cookie": tCookie,
-            "X-Requested-With": "XMLHttpRequest",
-            "Referer": util.getEmbedUrl(tokenData),
-        }
-
         let req = await request(
             this.data.tokenInfo.surl,
             {
                 method: "POST",
                 path: "/fc/ca/",
-                headers,
+                headers: this.getHeaders(),
                 body: util.constructFormData(formData),
             },
             this.proxy

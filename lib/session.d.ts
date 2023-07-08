@@ -32,7 +32,6 @@ export interface SessionOptions {
 export declare class Session {
     token: string;
     tokenInfo: TokenInfo;
-    private tokenRaw;
     private userAgent;
     private proxy;
     constructor(token: string | GetTokenResult, sessionOptions?: SessionOptions);

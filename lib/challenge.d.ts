@@ -50,6 +50,15 @@ export declare abstract class Challenge {
     protected proxy: string;
     constructor(data: ChallengeData, challengeOptions: ChallengeOptions);
     getImage(): Promise<Buffer>;
+    protected getHeaders(): {
+        "User-Agent": string;
+        "Content-Type": string;
+        "X-Newrelic-Timestamp": string;
+        "X-Requested-ID": string;
+        Cookie: string;
+        "X-Requested-With": string;
+        Referer: string;
+    };
     protected getKey(): Promise<string>;
     abstract answer(answer: number): Promise<AnswerResponse>;
     get gameType(): number;
