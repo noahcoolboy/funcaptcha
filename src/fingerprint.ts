@@ -362,7 +362,7 @@ function getFingerprint(canvasFp?: string) {
     let fingerprint = { ...baseFingerprint }; // Create a copy of the base fingerprint
 
     // Randomization time!
-    fingerprint["DNT"] = "unknown"; //Math.round(Math.random());
+    fingerprint["DNT"] = "1"; //Math.round(Math.random());
     fingerprint["L"] = languages[Math.floor(Math.random() * languages.length)];
     fingerprint["D"] = [1, 4, 8, 15, 16, 24, 32, 48][
         Math.floor(Math.random() * 8)

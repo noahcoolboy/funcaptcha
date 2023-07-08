@@ -485,7 +485,7 @@ function getBda(userAgent: string, pkey: string, surl: string, referer?: string,
                 },
                 {
                     "key": "user_agent_data_brands",
-                    "value": "Google Chrome,Chromium,Not-A.Brand"
+                    "value": "Not.A/Brand,Chromium,Google Chrome"
                 },
                 {
                     "key": "user_agent_data_mobile",
@@ -501,7 +501,7 @@ function getBda(userAgent: string, pkey: string, surl: string, referer?: string,
                 },
                 {
                     "key": "network_info_rtt",
-                    "value": 50
+                    "value": 100
                 },
                 {
                     "key": "network_info_save_data",
@@ -589,7 +589,7 @@ function getBda(userAgent: string, pkey: string, surl: string, referer?: string,
                 },
                 {
                     "key": "window__location_href",
-                    "value": `${surl}/v2/${pkey}/1.4.3/enforcement.${random()}.html`
+                    "value": `${surl}/v2/1.5.2/enforcement.${random()}.html#${pkey}`
                 },
                 {
                     "key": "client_config__surl",
@@ -619,6 +619,7 @@ function getBda(userAgent: string, pkey: string, surl: string, referer?: string,
             key: "jsbd",
             value: JSON.stringify({
                 HL: 3,
+                NCE: true,
                 DT: "",
                 NWD: "false",
                 DOTO: 1,
