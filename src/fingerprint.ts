@@ -13,9 +13,9 @@ const baseFingerprint = {
     ODB: true, // OpenDatabase support
     CPUC: "unknown", // CPU Class
     PK: "Win32", // Platform
-    CFP: `canvas winding:yes~canvas fp:data:image/png;base64,${Buffer.from(
+    CFP: false, /*`canvas winding:yes~canvas fp:data:image/png;base64,${Buffer.from(
         Math.random().toString()
-    ).toString("base64")}`, // Canvas fingerprint (if canvas is supported)
+    ).toString("base64")}`,*/ // Canvas fingerprint (if canvas is supported)
     FR: false, // Fake screen resolution?
     FOS: false, // Fake OS?
     FB: false, // Fake Browser?
@@ -389,9 +389,7 @@ function getFingerprint(canvasFp?: string) {
         "WinCE",
     ][Math.floor(Math.random() * 7)];*/
 
-    fingerprint["CFP"] = `canvas winding:yes~canvas fp:data:image/png;base64,${Buffer.from(
-        Math.random().toString()
-    ).toString("base64")}`; //canvasFp || ''; // Canvas Fingerprint
+    fingerprint["CFP"] = false; //canvasFp || ''; // Canvas Fingerprint
     fingerprint["FR"] = false; // Fake Resolution
     fingerprint["FOS"] = false; // Fake Operating System
     fingerprint["FB"] = false; // Fake Browser

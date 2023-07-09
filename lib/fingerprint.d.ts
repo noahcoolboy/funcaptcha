@@ -13,7 +13,7 @@ declare function getFingerprint(canvasFp?: string): {
     ODB: boolean;
     CPUC: string;
     PK: string;
-    CFP: string;
+    CFP: boolean;
     FR: boolean;
     FOS: boolean;
     FB: boolean;
