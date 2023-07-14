@@ -11,43 +11,94 @@ const DEFAULT_USER_AGENT =
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36";
 
 let apiBreakers = {
-    default: (c) => {
-        return {
-            px: (c[0] / 300).toFixed(2),
-            py: (c[1] / 200).toFixed(2),
-            x: c[0],
-            y: c[1],
-        };
+    v1: {
+        3: {
+            default: (c) => ({ px: (c[0] / 300).toFixed(2), py: (c[1] / 200).toFixed(2), x: c[0], y: c[1] }),
+            method_1: (c) => ({ x: c[1], y: c[0] }),
+            method_2: (c) => ({ x: c[0], y: (c[1] + c[0]) * c[0] }),
+            method_3: (c) => ({ a: c[0], b: c[1] }),
+            method_4: (c) => [c[0], c[1]],
+            method_5: (c) => [c[1], c[0]].map((v) => Math.sqrt(v)),
+        },
+        4: {
+            default: (c) => c
+        }
     },
-    method_1: (c) => {
-        return { x: c[1], y: c[0] };
-    },
-    method_2: (c) => {
-        return { x: c[0], y: (c[1] + c[0]) * c[0] };
-    },
-    method_3: (c) => {
-        return { a: c[0], b: c[1] };
-    },
-    method_4: (c) => {
-        return [c[0], c[1]];
-    },
-    method_5: (c) => {
-        return [c[1], c[0]].map((v) => Math.sqrt(v));
-    },
-};
+    v2: {
+        3: {
+            value: {
+                alpha: (c) => ({ x: c[0], y: (c[1] + c[0]) * c[0], px: (c[0] / 300).toFixed(2), py: (c[1] / 200).toFixed(2) }),
+                beta: (c) => ({ x: c[1], y: c[0], py: (c[0] / 300).toFixed(2), px: (c[1] / 200).toFixed(2) }),
+                gamma: (c) => ({ x: c[1] + 1, y: -c[0], px: (c[0] / 300).toFixed(2), py: (c[1] / 200).toFixed(2) }),
+                delta: (c) => ({ x: c[1] + 0.25, y: c[0] + 0.5, px: (c[0] / 300).toFixed(2), py: (c[1] / 200).toFixed(2) }),
+                epsilon: (c) => ({ x: c[0] * 0.5, y: c[1] * 5, px: (c[0] / 300).toFixed(2), py: (c[1] / 200).toFixed(2) }),
+                zeta: (c) => ({ x: c[0] + 1, y: c[1] + 2, px: (c[0] / 300).toFixed(2), py: (c[1] / 200).toFixed(2) }),
+                method_1: (c) => ({ x: c[0], y: c[1], px: (c[0] / 300).toFixed(2), py: (c[1] / 200).toFixed(2) }),
+                method_2: (c) => ({ x: c[1], y: (c[1] + c[0]) * c[0], px: (c[0] / 300).toFixed(2), py: (c[1] / 200).toFixed(2) }),
+                method_3: (c) => ({ x: Math.sqrt(c[0]), y: Math.sqrt(c[1]), px: (c[0] / 300).toFixed(2), py: (c[1] / 200).toFixed(2) }),
+            },
+            key: {
+                alpha: (c) => [c[1], (c[0] / 300).toFixed(2), (c[1] / 200).toFixed(2), c[0]],
+                beta: (c) => JSON.stringify({ x: c[0], y: c[1], px: (c[0] / 300).toFixed(2), py: (c[1] / 200).toFixed(2) }),
+                gamma: (c) => [c[0], c[1], (c[0] / 300).toFixed(2), (c[1] / 200).toFixed(2)].join(" "),
+                delta: (c) => [1, c[0], 2, c[1], 3, (c[0] / 300).toFixed(2), 4, (c[1] / 200).toFixed(2)],
+                epsilon: (c) => ({ answer: { x: c[0], y: c[1], px: (c[0] / 300).toFixed(2), py: (c[1] / 200).toFixed(2) } }),
+                zeta: (c) => [c[0], [c[1], [(c[0] / 300).toFixed(2), [(c[1] / 200).toFixed(2)]]]],
+                method_1: (c) => ({ a: c[0], b: c[1], px: (c[0] / 300).toFixed(2), py: (c[1] / 200).toFixed(2) }),
+                method_2: (c) => [c[0], c[1]],
+                method_3: (c) => [c[1], c[0]],
+            }
+        },
+        4: {
+            value: {
+                // @ts-ignore
+                alpha: (c) => ({ index: String(c.index) + 1 - 2 }),
+                beta: (c) => ({ index: -c.index }),
+                gamma: (c) => ({ index: 3 * (3 - c.index) }),
+                delta: (c) => ({ index: 7 * c.index }),
+                epsilon: (c) => ({ index: 2 * c.index }),
+                zeta: (c) => ({ index: c.index ? 100 / c.index : c.index }),
+                va: (c) => ({ index: c.index + 3 }),
+                vb: (c) => ({ index: -c.index }),
+                vc: (c) => ({ index: 10 - c.index }),
+                vd: (c) => ({ index: 3 * c.index }),
+            },
+            key: {
+                alpha: (c) => [Math.round(100 * Math.random()), c.index, Math.round(100 * Math.random())],
+                beta: (c) => ({ size: 50 - c.index, id: c.index, limit: 10 * c.index, req_timestamp: Date.now() }),
+                gamma: (c) => c.index,
+                delta: (c) => ({ index: c.index }),
+                epsilon: (c) => {
+                    const arr: any = [];
+                    const len = Math.round(5 * Math.random()) + 1;
+                    const rand = Math.round(Math.random() * len);
+                    for (let i = 0; i < len; i++) {
+                        arr.push(i === rand ? c.index : Math.round(10 * Math.random()));
+                    }
+                    arr.push(rand);
+                    return arr;
+                },
+                zeta: (c) => Array(Math.round(5 * Math.random()) + 1).concat(c.index),
+                ka: (c) => c.index,
+                kb: (c) => [c.index],
+                kc: (c) => ({ guess: c.index }),
+            }
+        }
+    }
+}
 
 function tileToLoc(tile: number): number[] {
     return [
         (tile % 3) * 100 +
-            (tile % 3) * 3 +
-            3 +
-            10 +
-            Math.floor(Math.random() * 80),
+        (tile % 3) * 3 +
+        3 +
+        10 +
+        Math.floor(Math.random() * 80),
         Math.floor(tile / 3) * 100 +
-            Math.floor(tile / 3) * 3 +
-            3 +
-            10 +
-            Math.floor(Math.random() * 80),
+        Math.floor(tile / 3) * 3 +
+        3 +
+        10 +
+        Math.floor(Math.random() * 80),
     ];
 }
 
@@ -278,7 +329,7 @@ function getBda(userAgent: string, publicKey: string, referer?: string, location
                     "key": "client_config__language",
                     "value": null
                 },
-                {   
+                {
                     "key": "navigator_battery_charging",
                     "value": true
                 },
@@ -292,7 +343,7 @@ function getBda(userAgent: string, publicKey: string, referer?: string, location
             ]
         },
         { key: "fe", value: fe },
-        { key: "ife_hash", value: murmur(fe.join(", "), 38) },  
+        { key: "ife_hash", value: murmur(fe.join(", "), 38) },
         { key: "cs", value: 1 },
         {
             key: "jsbd",
@@ -329,7 +380,7 @@ function getBda(userAgent: string, publicKey: string, referer?: string, location
 
     let time = new Date().getTime() / 1000;
     let key = userAgent + Math.round(time - (time % 21600));
-    
+
     let s = JSON.stringify(bda);
     let encrypted = crypt.encrypt(s, key);
     return Buffer.from(encrypted).toString("base64");
