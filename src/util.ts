@@ -386,7 +386,7 @@ function getBda(userAgent: string, publicKey: string, referer?: string, location
     return Buffer.from(encrypted).toString("base64");
 }
 
-function solveBreaker(v2: boolean, breaker: { value: string[], key: string } | string, gameType: number, value: object) {
+function solveBreaker(v2: boolean, breaker: { value: string[], key: string } | string = "default", gameType: number, value: object) {
     if (!v2 && typeof breaker === "string")
         return apiBreakers.v1[gameType][breaker || "default"](value)
 
