@@ -14,6 +14,7 @@ interface ChallengeData {
     tokenInfo: TokenInfo;
     session_token: string;
     challengeID: string;
+    challengeURL: string;
     game_data: {
         gameType: number;
         customGUI: {
@@ -174,6 +175,7 @@ export class Challenge1 extends Challenge {
                 headers: {
                     "User-Agent": this.userAgent,
                     "Content-Type": "application/x-www-form-urlencoded",
+                    "Referer": this.data.challengeURL
                 },
                 body: util.constructFormData({
                     session_token: this.data.session_token,
@@ -220,6 +222,7 @@ export class Challenge3 extends Challenge {
                     "X-Newrelic-Timestamp": tValue,
                     "X-Requested-ID": requestedId,
                     "Cookie": tCookie,
+                    "Referer": this.data.challengeURL
                 },
                 body: util.constructFormData({
                     session_token: this.data.session_token,
@@ -267,6 +270,7 @@ export class Challenge4 extends Challenge {
                     "X-Newrelic-Timestamp": tValue,
                     "X-Requested-ID": requestedId,
                     "Cookie": tCookie,
+                    "Referer": this.data.challengeURL
                 },
                 body: util.constructFormData({
                     session_token: this.data.session_token,
