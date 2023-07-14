@@ -17,6 +17,7 @@ async function test(publicKey, name, surl = "https://client-api.arkoselabs.com")
         /*data: {
             blob
         }*/
+        site: "https://client-demo.arkoselabs.com"
     });
     if (!token) {
         throw new Error("Invalid token");
