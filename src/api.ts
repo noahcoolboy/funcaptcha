@@ -11,6 +11,7 @@ export interface GetTokenOptions {
     // Page URL
     location?: string;
     proxy?: string;
+    language?: string;
 }
 
 export interface GetTokenResult {
@@ -53,7 +54,7 @@ export async function getToken(
 
     if (options.site) {
         options.headers["Origin"] = options.surl
-        options.headers["Referer"] = `${options.surl}/v2/${options.pkey}/1.4.3/enforcement.${util.random()}.html`
+        options.headers["Referer"] = `${options.surl}/v2/${options.pkey}/1.5.2/enforcement.${util.random()}.html`
     }
     
     let ua = options.headers[Object.keys(options.headers).find(v => v.toLowerCase() == "user-agent")]
@@ -68,8 +69,12 @@ export async function getToken(
                 public_key: options.pkey,
                 site: options.site,
                 userbrowser: ua,
+                capi_version: "1.5.2",
+                capi_mode: "inline",
+                style_theme: "default",
                 rnd: Math.random().toString(),
-                ...Object.fromEntries(Object.keys(options.data).map(v => ["data[" + v + "]", options.data[v]]))
+                ...Object.fromEntries(Object.keys(options.data).map(v => ["data[" + v + "]", options.data[v]])),
+                language: options.language || "en",
             }),
             headers: options.headers,
         },
