@@ -9,9 +9,11 @@ interface ChallengeData {
     tokenInfo: TokenInfo;
     session_token: string;
     challengeID: string;
+    challengeURL: string;
     game_data: {
         gameType: number;
         customGUI: {
+            is_using_api_breaker_v2: boolean;
             _guiFontColr: string;
             _challenge_imgs: string[];
             api_breaker: string;
@@ -22,7 +24,9 @@ interface ChallengeData {
             };
         };
         waves: number;
-        game_variant: string;
+        game_variant?: string;
+        game_difficulty?: number;
+        puzzle_name?: string;
     };
     game_sid: string;
     lang: string;
@@ -44,7 +48,7 @@ export declare abstract class Challenge {
     data: ChallengeData;
     imgs: Promise<Buffer>[];
     wave: number;
-    protected key: string;
+    protected key: Promise<string>;
     protected userAgent: string;
     protected proxy: string;
     constructor(data: ChallengeData, challengeOptions: ChallengeOptions);
@@ -67,5 +71,10 @@ export declare class Challenge3 extends Challenge {
     private answerHistory;
     constructor(data: ChallengeData, challengeOptions: ChallengeOptions);
     answer(tile: number): Promise<AnswerResponse>;
+}
+export declare class Challenge4 extends Challenge {
+    private answerHistory;
+    constructor(data: ChallengeData, challengeOptions: ChallengeOptions);
+    answer(index: number): Promise<AnswerResponse>;
 }
 export {};
