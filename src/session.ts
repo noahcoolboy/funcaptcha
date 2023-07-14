@@ -77,6 +77,7 @@ export class Session {
                     analytics_tier: this.tokenInfo.at,
                     "data%5Bstatus%5D": "init",
                     lang: "en",
+                    apiBreakerVersion: "green"
                 }),
                 headers: {
                     "User-Agent": this.userAgent,

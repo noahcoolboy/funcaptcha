@@ -386,6 +386,24 @@ function getBda(userAgent: string, publicKey: string, referer?: string, location
     return Buffer.from(encrypted).toString("base64");
 }
 
+function solveBreaker(v2: boolean, breaker: { value: string[], key: string } | string, gameType: number, value: object) {
+    if (!v2 && typeof breaker === "string")
+        return apiBreakers.v1[gameType][breaker || "default"](value)
+
+    if (typeof breaker !== "string") {
+        let b = apiBreakers.v2[gameType]
+        let v = breaker.value.reduce((acc, cur) => {
+            if (b.value[cur])
+                return b.value[cur](acc)
+            else
+                return cur
+        }, value)
+        return b.key[breaker.key](v)
+    } else {
+        return value
+    }
+}
+
 export default {
     DEFAULT_USER_AGENT,
     tileToLoc,
@@ -393,5 +411,6 @@ export default {
     getBda,
     apiBreakers,
     getTimestamp,
-    random
+    random,
+    solveBreaker
 };

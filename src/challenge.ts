@@ -17,6 +17,7 @@ interface ChallengeData {
     game_data: {
         gameType: number;
         customGUI: {
+            is_using_api_breaker_v2: boolean;
             _guiFontColr: string;
             _challenge_imgs: string[];
             api_breaker: string;
@@ -198,11 +199,8 @@ export class Challenge3 extends Challenge {
         assert(tile >= 0 && tile <= 5, "Tile must be between 0 and 5");
         
         let pos = util.tileToLoc(tile);
-        this.answerHistory.push(
-            util.apiBreakers[
-                this.data.game_data.customGUI.api_breaker || "default"
-            ](pos)
-        );
+        this.answerHistory.push(util.solveBreaker(!!this.data.game_data.customGUI.is_using_api_breaker_v2, this.data.game_data.customGUI.api_breaker, 3, pos))
+        
         let encrypted = await crypt.encrypt(
             JSON.stringify(this.answerHistory),
             this.data.session_token
@@ -238,3 +236,4 @@ export class Challenge3 extends Challenge {
         return reqData;
     }
 }
+
