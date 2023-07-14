@@ -51,7 +51,7 @@ export abstract class Challenge {
     public data: ChallengeData;
     public imgs: Promise<Buffer>[];
     public wave: number = 0;
-    protected key: string;
+    protected key: Promise<string>;
     protected userAgent: string;
     protected proxy: string;
 
@@ -67,6 +67,7 @@ export abstract class Challenge {
                 path: undefined,
                 headers: {
                     "User-Agent": this.userAgent,
+                    "Referer": this.data.tokenInfo.surl
                 },
             });
             return req.body;
@@ -74,7 +75,7 @@ export abstract class Challenge {
 
         if(data.game_data.customGUI.encrypted_mode) {
             // Preload decryption key
-            this.getKey();
+            this.key = this.getKey();
         }
     }
 
@@ -94,7 +95,7 @@ export abstract class Challenge {
     }
 
     protected async getKey() {
-        if (this.key) return this.key;
+        if (this.key) return await this.key;
         let response = await request(
             this.data.tokenInfo.surl,
             {
