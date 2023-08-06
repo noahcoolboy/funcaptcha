@@ -289,4 +289,8 @@ export class Challenge4 extends Challenge {
         this.wave++;
         return reqData;
     }
+
+    get difficulty(): number {
+        return this.data.game_data.game_difficulty;
+    }
 }

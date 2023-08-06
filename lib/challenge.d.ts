@@ -77,5 +77,6 @@ export declare class Challenge4 extends Challenge {
     private answerHistory;
     constructor(data: ChallengeData, challengeOptions: ChallengeOptions);
     answer(index: number): Promise<AnswerResponse>;
+    get difficulty(): number;
 }
 export {};
