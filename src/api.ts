@@ -67,7 +67,7 @@ export async function getToken(
             body: util.constructFormData({
                 bda: util.getBda(ua, options),
                 public_key: options.pkey,
-                site: new URL(options.site).origin,
+                site: options.site ? new URL(options.site).origin : undefined,
                 userbrowser: ua,
                 capi_version: "1.5.2",
                 capi_mode: "inline",
