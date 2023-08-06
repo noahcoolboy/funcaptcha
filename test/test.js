@@ -17,6 +17,7 @@ async function test(publicKey, name, surl = "https://client-api.arkoselabs.com")
         /*data: {
             blob
         }*/
+        site: "https://client-demo.arkoselabs.com"
     });
     if (!token) {
         throw new Error("Invalid token");
@@ -31,8 +32,8 @@ async function test(publicKey, name, surl = "https://client-api.arkoselabs.com")
     let captcha = await session.getChallenge();
 
     console.table({
-        game_type: captcha.data.game_data.gameType,
-        game_variant: captcha.data.game_data.game_variant,
+        game_type: captcha.gameType,
+        game_variant: captcha.variant,
         instruction: captcha.instruction
     })
 

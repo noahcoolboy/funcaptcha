@@ -1,5 +1,5 @@
 import { GetTokenResult } from "./api";
-import { Challenge, Challenge1, Challenge3 } from "./challenge";
+import { Challenge, Challenge1, Challenge3, Challenge4 } from "./challenge";
 import http from "./http";
 import util from "./util";
 
@@ -77,6 +77,7 @@ export class Session {
                     analytics_tier: this.tokenInfo.at,
                     "data%5Bstatus%5D": "init",
                     lang: "en",
+                    apiBreakerVersion: "green"
                 }),
                 headers: {
                     "User-Agent": this.userAgent,
@@ -100,6 +101,11 @@ export class Session {
             });
         } else if (data.game_data.gameType == 3) {
             return new Challenge3(data, {
+                proxy: this.proxy,
+                userAgent: this.userAgent,
+            });
+        }  else if (data.game_data.gameType == 4) {
+            return new Challenge4(data, {
                 proxy: this.proxy,
                 userAgent: this.userAgent,
             });

@@ -22,7 +22,7 @@ const token = await fun.getToken({
         // in mind to pass a user agent when doing that
         "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36'
     },
-    site: "https://www.roblox.com", // OPTIONAL: The site parameter, usually not required
+    site: "https://www.roblox.com/login", // The site which contains the funcaptcha
     proxy: "http://127.0.0.1:8888" // OPTIONAL: A proxy to fetch the token, usually not required
     // NOTE: The proxy will only be used for fetching the token, and not future requests such as getting images and answering captchas
 })
@@ -45,8 +45,11 @@ One session can get you 10 funcaptcha challenges, you will have to get another s
 ```js
 let challenge = await session.getChallenge()
 // Please view https://pastebin.com/raw/Gi6yKwyD to see all the data you can find 
-console.log(challenge.data.game_data.game_variant)
-console.log(challenge.data.game_data.customGUI.api_breaker)
+console.log(challenge.gameType) // Gets the game type (ball, tiles, matchkey, etc...)
+console.log(challenge.variant) // The game variant, eg: apple, rotated, maze, dice_pair, dart, card, 3d_rollball_animals, etc...
+console.log(challenge.instruction) // Self explanatory
+console.log(challenge.waves) // Wave count
+console.log(challenge.wave) // Current wave number
 
 // You can then use these functions
 await challenge.getImage()
@@ -58,6 +61,10 @@ await challenge.answer(51.4) // You can input the raw angle as well (clockwise, 
 
 // For game type 3, where you have to pick one of 6 tiles
 await challenge.answer(2) // 0-5, please see https://github.com/noahcoolboy/roblox-funcaptcha/raw/master/img.gif
+
+// For game type 4, where you pick an image from a selection of images which matches the prompt compared to the image on the left
+// The answer should be between 0 and challenge.difficulty
+await challenge.answer(2) // Pick the third image
 ```
 
 ## Full Example
