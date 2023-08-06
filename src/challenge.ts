@@ -32,6 +32,7 @@ interface ChallengeData {
         game_variant?: string; // For gametype 3
         game_difficulty?: number;
         puzzle_name?: string; // For gametype 4
+        instruction_string?: string; // For gametype 4
     };
     game_sid: string;
     lang: string;
@@ -128,7 +129,7 @@ export abstract class Challenge {
     }
     
     get variant() {
-        return this.data.game_data.game_variant;
+        return this.data.game_data.game_variant || this.data.game_data.instruction_string;
     }
 
     get instruction() {

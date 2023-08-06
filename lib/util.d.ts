@@ -6,7 +6,7 @@ declare function tileToLoc(tile: number): number[];
 declare function constructFormData(data: {}): string;
 declare function random(): string;
 declare function getTimestamp(): TimestampData;
-declare function getBda(userAgent: string, publicKey: string, referer?: string, location?: string): string;
+declare function getBda(userAgent: string, opts: object): string;
 declare function solveBreaker(v2: boolean, breaker: {
     value: string[];
     key: string;

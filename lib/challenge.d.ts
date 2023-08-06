@@ -27,6 +27,7 @@ interface ChallengeData {
         game_variant?: string;
         game_difficulty?: number;
         puzzle_name?: string;
+        instruction_string?: string;
     };
     game_sid: string;
     lang: string;
