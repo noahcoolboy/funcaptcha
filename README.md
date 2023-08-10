@@ -39,6 +39,11 @@ const session = new fun.Session(token, {
 // If you would like to let a user solve the captcha in their browser
 // NOTE: Embed URLs will not work unless put in an iframe.
 console.log(session.getEmbedUrl())
+
+// Suppressed captchas are instantly valid an do not require for you to load a challenge (it will error)
+// These can occur when using a trusted IP and good fingerprint
+// You can check if a captcha is suppressed by doing the following:
+console.log(session.tokenInfo.sup == "1")
 ```
 
 One session can get you 10 funcaptcha challenges, you will have to get another session after that.
