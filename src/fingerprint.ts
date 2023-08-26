@@ -300,7 +300,7 @@ function getEnhancedFingerprint(fp: typeof baseFingerprint, ua: string, opts: an
     fingerprint.webgl_hash_webgl = x64hash128(Object.entries(fingerprint).filter(([k, v]) => k.startsWith("webgl_") && k != "webgl_hash_webgl").map(([k, v]) => v).join(","), 0);
 
     fingerprint.client_config__language = opts.language || null;
-    fingerprint.window__location_href = `${opts.surl}/v2/${opts.pkey}/1.5.4/enforcement.${randomBytes(16).toString("hex")}.html`
+    fingerprint.window__location_href = `${opts.surl}/v2/1.5.4/enforcement.cd12da708fe6cbe6e068918c38de2ad9.html#${opts.pkey}`
     if (opts.site) {
         fingerprint.document__referrer = opts.site;
         fingerprint.window__ancestor_origins = [opts.site];

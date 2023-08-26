@@ -38,6 +38,9 @@ undici.request("https://auth.roblox.com/v2/login", {
             site: "https://www.roblox.com/login",
         })
 
+        if(token.token.includes("sup=1"))
+            return console.log("Suppressed captcha!")
+
         let session = new funcaptcha.Session(token, {
             userAgent: USER_AGENT,
         })
