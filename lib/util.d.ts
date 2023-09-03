@@ -25,12 +25,7 @@ declare const _default: {
     apiBreakers: {
         v1: {
             3: {
-                default: (c: any) => {
-                    px: string;
-                    py: string;
-                    x: any;
-                    y: any;
-                };
+                default: (c: any) => any;
                 method_1: (c: any) => {
                     x: any;
                     y: any;
