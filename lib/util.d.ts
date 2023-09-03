@@ -2,7 +2,13 @@ interface TimestampData {
     cookie: string;
     value: string;
 }
-declare function tileToLoc(tile: number): number[];
+interface TileLoc {
+    x: number;
+    y: number;
+    px: number;
+    py: number;
+}
+declare function tileToLoc(tile: number): TileLoc;
 declare function constructFormData(data: {}): string;
 declare function random(): string;
 declare function getTimestamp(): TimestampData;
@@ -50,56 +56,56 @@ declare const _default: {
                     alpha: (c: any) => {
                         x: any;
                         y: number;
-                        px: string;
-                        py: string;
+                        px: any;
+                        py: any;
                     };
                     beta: (c: any) => {
                         x: any;
                         y: any;
-                        py: string;
-                        px: string;
+                        py: any;
+                        px: any;
                     };
                     gamma: (c: any) => {
                         x: any;
                         y: number;
-                        px: string;
-                        py: string;
+                        px: any;
+                        py: any;
                     };
                     delta: (c: any) => {
                         x: any;
                         y: any;
-                        px: string;
-                        py: string;
+                        px: any;
+                        py: any;
                     };
                     epsilon: (c: any) => {
                         x: number;
                         y: number;
-                        px: string;
-                        py: string;
+                        px: any;
+                        py: any;
                     };
                     zeta: (c: any) => {
                         x: any;
                         y: any;
-                        px: string;
-                        py: string;
+                        px: any;
+                        py: any;
                     };
                     method_1: (c: any) => {
                         x: any;
                         y: any;
-                        px: string;
-                        py: string;
+                        px: any;
+                        py: any;
                     };
                     method_2: (c: any) => {
                         x: any;
                         y: number;
-                        px: string;
-                        py: string;
+                        px: any;
+                        py: any;
                     };
                     method_3: (c: any) => {
                         x: number;
                         y: number;
-                        px: string;
-                        py: string;
+                        px: any;
+                        py: any;
                     };
                 };
                 key: {
@@ -111,16 +117,16 @@ declare const _default: {
                         answer: {
                             x: any;
                             y: any;
-                            px: string;
-                            py: string;
+                            px: any;
+                            py: any;
                         };
                     };
                     zeta: (c: any) => any[];
                     method_1: (c: any) => {
                         a: any;
                         b: any;
-                        px: string;
-                        py: string;
+                        px: any;
+                        py: any;
                     };
                     method_2: (c: any) => any[];
                     method_3: (c: any) => any[];
