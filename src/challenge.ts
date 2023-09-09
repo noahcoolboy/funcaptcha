@@ -133,7 +133,7 @@ export abstract class Challenge {
     }
 
     get instruction() {
-        return this.data.string_table[`${this.data.game_data.gameType}.instructions-${this.data.game_data.game_variant}`] || this.data.string_table[`${this.data.game_data.gameType}.touch_done_info${this.data.game_data.game_variant ? `_${this.data.game_data.game_variant}` : ""}`];
+        return this.data.string_table[`${this.data.game_data.gameType}.instructions-${this.variant}`] || this.data.string_table[`${this.data.game_data.gameType}.touch_done_info${this.data.game_data.game_variant ? `_${this.data.game_data.game_variant}` : ""}`];
     }
 
     get waves() {
