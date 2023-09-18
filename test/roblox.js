@@ -60,6 +60,7 @@ undici.request("https://auth.roblox.com/v2/login", {
                     "mismatched-jigsaw",
                     "stairs_walking",
                     "reflection",
+                    "numericalmatch"
                 ].includes(challenge.variant)
             )
         ) {

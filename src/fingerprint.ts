@@ -244,8 +244,8 @@ let baseEnhancedFingerprint = {
     "webgl_vsi_params": "0,31,30,0,31,30,0,31,30",
     "webgl_fsf_params": "23,127,127,23,127,127,23,127,127",
     "webgl_fsi_params": "0,31,30,0,31,30,0,31,30",
-    "webgl_hash_webgl": null, // TODO
-    "user_agent_data_brands": "Not/A)Brand,Google Chrome,Chromium",
+    "webgl_hash_webgl": null,
+    "user_agent_data_brands": "Chromium,Not)A;Brand,Google Chrome",
     "user_agent_data_mobile": null,
     "navigator_connection_downlink": null,
     "navigator_connection_downlink_max": null,
@@ -274,13 +274,13 @@ let baseEnhancedFingerprint = {
     "window__tree_index": [
         0
     ],
-    "window__tree_structure": "[[]]",
-    "window__location_href": "https://roblox-api.arkoselabs.com/v2/1.5.4/enforcement.cd12da708fe6cbe6e068918c38de2ad9.html#476068BF-9607-4799-B53D-966BE98E2B81",
+    "window__tree_structure": "[[],[[]]]",
+    "window__location_href": "https://roblox-api.arkoselabs.com/v2/1.5.5/enforcement.fbfc14b0d793c6ef8359e0e4b4a91f67.html#476068BF-9607-4799-B53D-966BE98E2B81",
     "client_config__sitedata_location_href": "https://www.roblox.com/arkose/iframe",
     "client_config__surl": "https://roblox-api.arkoselabs.com",
     "client_config__language": null,
     "navigator_battery_charging": true,
-    "audio_fingerprint": (124.04347527516074 + Math.random() * 0.001 - 0.0005).toString(),
+    "audio_fingerprint": "124.04347527516074"
 }
 function getEnhancedFingerprint(fp: typeof baseFingerprint, ua: string, opts: any) {
     let fingerprint = { ...baseEnhancedFingerprint };
@@ -300,7 +300,7 @@ function getEnhancedFingerprint(fp: typeof baseFingerprint, ua: string, opts: an
     fingerprint.webgl_hash_webgl = x64hash128(Object.entries(fingerprint).filter(([k, v]) => k.startsWith("webgl_") && k != "webgl_hash_webgl").map(([k, v]) => v).join(","), 0);
 
     fingerprint.client_config__language = opts.language || null;
-    fingerprint.window__location_href = `${opts.surl}/v2/1.5.4/enforcement.cd12da708fe6cbe6e068918c38de2ad9.html#${opts.pkey}`
+    fingerprint.window__location_href = `${opts.surl}/v2/1.5.5/enforcement.fbfc14b0d793c6ef8359e0e4b4a91f67.html#${opts.pkey}`
     if (opts.site) {
         fingerprint.document__referrer = opts.site;
         fingerprint.window__ancestor_origins = [opts.site];
@@ -308,6 +308,7 @@ function getEnhancedFingerprint(fp: typeof baseFingerprint, ua: string, opts: an
     }
 
     fingerprint.client_config__surl = opts.surl || "https://client-api.arkoselabs.com";
+    fingerprint.audio_fingerprint = (124.04347527516074 + Math.random() * 0.001 - 0.0005).toString();
     
     return Object.entries(fingerprint).map(([k, v]) => ({ key: k, value: v }));
 }

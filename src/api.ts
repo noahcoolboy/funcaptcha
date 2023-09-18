@@ -54,7 +54,7 @@ export async function getToken(
 
     if (options.site) {
         options.headers["Origin"] = options.surl
-        options.headers["Referer"] = `${options.surl}/v2/${options.pkey}/1.5.4/enforcement.${util.random()}.html`
+        options.headers["Referer"] = `${options.surl}/v2/${options.pkey}/1.5.5/enforcement.fbfc14b0d793c6ef8359e0e4b4a91f67.html`
     }
     
     let ua = options.headers[Object.keys(options.headers).find(v => v.toLowerCase() == "user-agent")]
@@ -69,7 +69,7 @@ export async function getToken(
                 public_key: options.pkey,
                 site: options.site ? new URL(options.site).origin : undefined,
                 userbrowser: ua,
-                capi_version: "1.5.2",
+                capi_version: "1.5.5",
                 capi_mode: "inline",
                 style_theme: "default",
                 rnd: Math.random().toString(),
