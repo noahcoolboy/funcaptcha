@@ -112,4 +112,4 @@ Care to support my work?
 * BTC: 38pbL2kX2f6oXGVvc6WFF2BY9VpUCLH7FG
 * LTC: M81EXhLSRXNKigqNuz5r7nanAvXmJmjFht
 * XRP: rw2ciyaNshpHe7bCHo4bRWq6pqqynnWKQg:865667163
-* Ko-Fi (PayPal): [noahcoolboy](ko-fi.com/noahcoolboy)
+* Ko-Fi (PayPal): [noahcoolboy](https://ko-fi.com/noahcoolboy)
