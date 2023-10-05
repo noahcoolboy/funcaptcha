@@ -169,7 +169,7 @@ function getBda(userAgent: string, opts: object): string {
 
 function solveBreaker(v2: boolean, breaker: { value: string[], key: string } | string = "default", gameType: number, value: object) {
     if (!v2 && typeof breaker === "string")
-        return apiBreakers.v1[gameType][breaker || "default"](value)
+        return (apiBreakers.v1[gameType][breaker || "default"] || ((v: any) => v))(value)
 
     if (typeof breaker !== "string") {
         let b = apiBreakers.v2[gameType]
