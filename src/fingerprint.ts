@@ -226,26 +226,26 @@ function cfpHash(H8W) {
 }
 
 let baseEnhancedFingerprint = {
-    "webgl_extensions": "ANGLE_instanced_arrays;EXT_blend_minmax;EXT_color_buffer_half_float;EXT_disjoint_timer_query;EXT_float_blend;EXT_frag_depth;EXT_shader_texture_lod;EXT_texture_compression_bptc;EXT_texture_compression_rgtc;EXT_texture_filter_anisotropic;EXT_sRGB;KHR_parallel_shader_compile;OES_element_index_uint;OES_fbo_render_mipmap;OES_standard_derivatives;OES_texture_float;OES_texture_float_linear;OES_texture_half_float;OES_texture_half_float_linear;OES_vertex_array_object;WEBGL_color_buffer_float;WEBGL_compressed_texture_s3tc;WEBGL_compressed_texture_s3tc_srgb;WEBGL_debug_renderer_info;WEBGL_debug_shaders;WEBGL_depth_texture;WEBGL_draw_buffers;WEBGL_lose_context;WEBGL_multi_draw",
+    "webgl_extensions": "ANGLE_instanced_arrays;EXT_blend_minmax;EXT_color_buffer_half_float;EXT_float_blend;EXT_frag_depth;EXT_shader_texture_lod;EXT_texture_compression_bptc;EXT_texture_compression_rgtc;EXT_texture_filter_anisotropic;EXT_sRGB;OES_element_index_uint;OES_fbo_render_mipmap;OES_standard_derivatives;OES_texture_float;OES_texture_float_linear;OES_texture_half_float;OES_texture_half_float_linear;OES_vertex_array_object;WEBGL_color_buffer_float;WEBGL_compressed_texture_astc;WEBGL_compressed_texture_etc;WEBGL_compressed_texture_etc1;WEBGL_compressed_texture_s3tc;WEBGL_compressed_texture_s3tc_srgb;WEBGL_debug_renderer_info;WEBGL_depth_texture;WEBGL_draw_buffers;WEBGL_lose_context;WEBGL_multi_draw",
     "webgl_extensions_hash": "58a5a04a5bef1a78fa88d5c5098bd237",
     "webgl_renderer": "WebKit WebGL",
     "webgl_vendor": "WebKit",
     "webgl_version": "WebGL 1.0 (OpenGL ES 2.0 Chromium)",
     "webgl_shading_language_version": "WebGL GLSL ES 1.0 (OpenGL ES GLSL ES 1.0 Chromium)",
     "webgl_aliased_line_width_range": "[1, 1]",
-    "webgl_aliased_point_size_range": "[0.125, 8192]",
+    "webgl_aliased_point_size_range": "[1, 1023]",
     "webgl_antialiasing": "yes",
     "webgl_bits": "8,8,24,8,8,0",
-    "webgl_max_params": "16,32,8192,261,8192,16,8192,32,32,16,256",
+    "webgl_max_params": "16,64,16384,4096,8192,32,8192,31,16,32,4096",
     "webgl_max_viewport_dims": "[8192, 8192]",
-    "webgl_unmasked_vendor": "Google Inc.",
-    "webgl_unmasked_renderer": "Google SwiftShader",
+    "webgl_unmasked_vendor": "Google Inc. (Google)",
+    "webgl_unmasked_renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
     "webgl_vsf_params": "23,127,127,23,127,127,23,127,127",
     "webgl_vsi_params": "0,31,30,0,31,30,0,31,30",
     "webgl_fsf_params": "23,127,127,23,127,127,23,127,127",
     "webgl_fsi_params": "0,31,30,0,31,30,0,31,30",
     "webgl_hash_webgl": null,
-    "user_agent_data_brands": "Chromium,Not)A;Brand,Google Chrome",
+    "user_agent_data_brands": "Chromium,Google Chrome,Not=A?Brand",
     "user_agent_data_mobile": null,
     "navigator_connection_downlink": null,
     "navigator_connection_downlink_max": null,
@@ -270,9 +270,10 @@ let baseEnhancedFingerprint = {
     "document__referrer": "https://www.roblox.com/",
     "window__ancestor_origins": [
         "https://www.roblox.com",
+        "https://www.roblox.com"
     ],
     "window__tree_index": [
-        0
+        1,0
     ],
     "window__tree_structure": "[[],[[]]]",
     "window__location_href": "https://roblox-api.arkoselabs.com/v2/1.5.5/enforcement.fbfc14b0d793c6ef8359e0e4b4a91f67.html#476068BF-9607-4799-B53D-966BE98E2B81",
