@@ -4,6 +4,7 @@ console.time("Full captcha");
 console.time("Get token");
 fun.getToken({
     pkey: "69A21A01-CC7B-B9C6-0F9A-E7FA06677FFC",
+    site: "https://client-demo.arkoselabs.com"
 }).then(async (token) => {
     console.timeEnd("Get token");
     console.time("Get challenge");
