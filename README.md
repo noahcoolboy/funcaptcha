@@ -1,5 +1,7 @@
 # funcaptcha
 A library used to interact with funcaptchas.
+## Note
+This package will no longer be maintained regularly. I am open to accept pull requests and changes, but I myself will not be making any modifications anymore. This is because of the constant security measures Arkose Labs has been implementing, which I no longer have the free time and will to reverse engineer anymore. You are free to fork the code and maintain it there, or make your own version in another programming language. I just won't be making any changes anymore.
 ## Installation
 This package is available on npm.  
 Simply run: `npm install funcaptcha`
