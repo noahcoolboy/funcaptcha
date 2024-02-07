@@ -1,5 +1,8 @@
 # funcaptcha
 A library used to interact with funcaptchas.
+## Sponsor
+![20240205-184826](https://github.com/noahcoolboy/funcaptcha/assets/46800081/ac9da915-937d-4694-9e14-dfdb5a56753b)  
+[Capsolver.com](https://capsolver.com) is an AI-powered service that provides automatic captcha solving capabilities. It supports a range of captcha types, including reCAPTCHA, hCaptcha, and FunCaptcha, AWS Captcha, Geetest, Akamai Web, BMP, Imperva / Incapsula, image captcha among others. Capsolver offers both Chrome and Firefox extensions for ease of use, API integration for developers, and various pricing packages to suit different needs. It aims to facilitate seamless web automation by bypassing captcha verifications efficiently
 ## Note
 This package will no longer be maintained regularly. I am open to accept pull requests and changes, but I myself will not be making any modifications anymore. This is because of the constant security measures Arkose Labs has been implementing, which I no longer have the free time and will to reverse engineer anymore. You are free to fork the code and maintain it there, or make your own version in another programming language. I just won't be making any changes anymore.
 ## Installation
