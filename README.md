@@ -1,9 +1,6 @@
 # funcaptcha
-A library used to interact with funcaptchas.
-## Sponsor
-[![Capsolver Banner](https://github.com/noahcoolboy/funcaptcha/assets/46800081/ac9da915-937d-4694-9e14-dfdb5a56753b)](https://www.capsolver.com/?utm_source=github&utm_medium=banner_github&utm_campaign=funcaptcha-library)  
-[Capsolver.com](https://www.capsolver.com/?utm_source=github&utm_medium=banner_github&utm_campaign=funcaptcha-library) is an AI-powered service that specializes in solving various types of captchas automatically. It supports captchas such as [reCAPTCHA V2](https://docs.capsolver.com/guide/captcha/ReCaptchaV2.html?utm_source=github&utm_medium=banner_github&utm_campaign=funcaptcha-library), [reCAPTCHA V3](https://docs.capsolver.com/guide/captcha/ReCaptchaV3.html?utm_source=github&utm_medium=banner_github&utm_campaign=funcaptcha-library), [hCaptcha](https://docs.capsolver.com/guide/captcha/HCaptcha.html?utm_source=github&utm_medium=banner_github&utm_campaign=funcaptcha-library), [FunCaptcha](https://docs.capsolver.com/guide/captcha/FunCaptcha.html?utm_source=github&utm_medium=banner_github&utm_campaign=funcaptcha-library), [DataDome](https://docs.capsolver.com/guide/captcha/DataDome.html?utm_source=github&utm_medium=banner_github&utm_campaign=funcaptcha-library), [AWS Captcha](https://docs.capsolver.com/guide/captcha/awsWaf.html?utm_source=github&utm_medium=banner_github&utm_campaign=funcaptcha-library), [Geetest](https://docs.capsolver.com/guide/captcha/Geetest.html?utm_source=github&utm_medium=banner_github&utm_campaign=funcaptcha-library), and Cloudflare [Captcha](https://docs.capsolver.com/guide/antibots/cloudflare_turnstile.html?utm_source=github&utm_medium=banner_github&utm_campaign=funcaptcha-library) / [Challenge 5s](https://docs.capsolver.com/guide/antibots/cloudflare_challenge.html?utm_source=github&utm_medium=banner_github&utm_campaign=funcaptcha-library), [Imperva / Incapsula](https://docs.capsolver.com/guide/antibots/imperva.html?utm_source=github&utm_medium=banner_github&utm_campaign=funcaptcha-library), among others.
-For developers, Capsolver offers API integration options detailed in their [documentation](https://docs.capsolver.com/?utm_source=github&utm_medium=banner_github&utm_campaign=funcaptcha-library), facilitating the integration of captcha solving into applications. They also provide browser extensions for [Chrome](https://chromewebstore.google.com/detail/captcha-solver-auto-captc/pgojnojmmhpofjgdmaebadhbocahppod) and [Firefox](https://addons.mozilla.org/es/firefox/addon/capsolver-captcha-solver/), making it easy to use their service directly within a browser. Different pricing packages are available to accommodate varying needs, ensuring flexibility for users.
+A library used to interact with funcaptchas.  
+This does not solve the captcha, but only allows you to interact with it. If you need a solver instead, I recommend [Capsolver.com](https://www.capsolver.com/?utm_source=github&utm_medium=banner_github&utm_campaign=funcaptcha-library).
 ## Note
 This package will no longer be maintained regularly. I am open to accept pull requests and changes, but I myself will not be making any modifications anymore. This is because of the constant security measures Arkose Labs has been implementing, which I no longer have the free time and will to reverse engineer anymore. You are free to fork the code and maintain it there, or make your own version in another programming language. I just won't be making any changes anymore.
 ## Installation
@@ -111,11 +108,3 @@ fun.getToken({
     console.log("Done!")
 })
 ```
-
-
-## Support Me
-Care to support my work?
-* BTC: 38pbL2kX2f6oXGVvc6WFF2BY9VpUCLH7FG
-* LTC: M81EXhLSRXNKigqNuz5r7nanAvXmJmjFht
-* XRP: rw2ciyaNshpHe7bCHo4bRWq6pqqynnWKQg:865667163
-* Ko-Fi (PayPal): [noahcoolboy](https://ko-fi.com/noahcoolboy)
